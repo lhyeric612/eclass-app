@@ -5,18 +5,22 @@
         </div>
         <h3>Welcome to Little Frog</h3>
         <p>Login in. To see it in action.</p>
-        <form class="m-t" role="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <input id="email" type="email" class="form-control" placeholder="Email" required formControlName="email" email>
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" required formControlName="password">
-            </div>
-            <button type="submit" class="btn btn-primary block full-width m-b" [disabled]="!loginForm.valid">Login</button>
-        </form>
+        <div class="form-group">
+            <mat-form-field class="full-width">
+                <input matInput id="email" type="email" class="form-control" placeholder="Email" required [formControl]="email" email (keyup.enter)="onSubmit()">
+                <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Enter your password" required [type]="hidePwd ? 'password' : 'text'" [formControl]="password" (keyup.enter)="onSubmit()">
+                <button mat-icon-button matSuffix (click)="hidePwd = !hidePwd" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePwd">
+                    <mat-icon>{{hidePwd ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+            </mat-form-field>
+        </div>
+        <button type="submit" mat-flat-button class="mat-primary block full-width m-b" (click)="onSubmit()">Login</button>
         <p class="m-t"> <small>Little Frog Learning Centre &copy; 2019</small> </p>
     </div>
 </div>
-<script>
-
-</script>

@@ -1,11 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+/* bootstrap style */
 @import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
-@import url('https://unpkg.com/INSPINIA@2.5.0/app/styles/style.min.css');
-@import url('https://unpkg.com/INSPINIA@2.5.0/app/styles/animate.css');
-/*// regular style toast */
+/* theme style */
+@import 'assets/css/style.css';
+@import 'assets/css/animate.css';
+/* regular style toast */
 @import '~ngx-toastr/toastr';
+/* Material Angular */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 /* custom css */
-body {
-    color: #afafaf;
-}
+/*body { color: #afafaf; }*/
+/*html, body { height: 100%; }*/
+/*body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }*/
+body { background: #ffffff; }
+#wrapper { background-color: #2f4050; }
+.title-action > button { margin-right: 8px; }

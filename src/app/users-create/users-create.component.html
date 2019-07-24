@@ -1,0 +1,91 @@
+<div class="skin-1">
+    <div id="wrapper">
+        <app-nav></app-nav>
+        <div id="page-wrapper" class="gray-bg">
+            <app-top-nav></app-top-nav>
+            <div class="wrapper wrapper-content">
+                <div class="row wrapper border-bottom white-bg page-heading">
+                    <div class="col-lg-8">
+                        <h2>Users</h2>
+                        <ol class="breadcrumb">
+                            <li>
+                                <a href="/dashboard">Dashboard</a>
+                            </li>
+                            <li>
+                                <span>Users</span>
+                            </li>
+                            <li class="active">
+                                <span>Create</span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="title-action">
+                            <button type="submit" class="mat-primary" mat-flat-button [disabled]="!createForm.valid">Save</button>
+                            <button mat-stroked-button>Back</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper wrapper-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <form method="get" class="form-horizontal" [formGroup]="createForm">
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="Email" class="form-control" formControlName="email">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="First Name" class="form-control" formControlName="firstName">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="Last Name" class="form-control" formControlName="lastName">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="password" placeholder="Password" class="form-control" formControlName="password">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="password" placeholder="Confirm Password" class="form-control" formControlName="confirmPassword">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <mat-label>Roles</mat-label>
+                                                    <mat-select formControlName="roleId">
+                                                        <mat-option *ngFor="let role of roles" [value]="role.id">
+                                                            {{role.name}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
