@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { FormControl, Validators } from '@angular/forms';
+import {  FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 import { ConfigService } from '../config.service';
@@ -14,6 +14,15 @@ import { Md5 } from 'ts-md5/dist/md5';
 })
 
 export class LoginComponent implements OnInit {
+
+    private httpOptions: any;
+    private hidePwd: boolean;
+    private loginData: any;
+
+    loginForm = new FormGroup({
+        email: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [Validators.required])
+    });
 
     constructor(
         private configService: ConfigService,
@@ -38,13 +47,6 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    private httpOptions: any;
-    private hidePwd: boolean;
-    private loginData: any;
-
-    email = new FormControl('', [Validators.required, Validators.email]);
-    password = new FormControl('', [Validators.required]);
-
     ngOnInit() {
         this.hidePwd = true;
         if (this.cookieService.check('eclass-app')) {
@@ -62,37 +64,21 @@ export class LoginComponent implements OnInit {
     }
 
     getEmailErrorMessage() {
-        return this.email.hasError('required') ? 'Please enter your login email' :
-            this.email.hasError('email') ? 'Not a valid email' :
+        return this.loginForm.controls.email.hasError('required') ? 'Please enter your login email' :
+            this.loginForm.controls.email.hasError('email') ? 'Not a valid email' :
                 '';
     }
 
     getPasswordErrorMessage() {
-        return this.password.hasError('required') ? 'Please enter your password' :
+        return this.loginForm.controls.password.hasError('required') ? 'Please enter your password' :
                 '';
     }
 
     onSubmit() {
-        let isValid = true;
+        if (this.loginForm.valid) {
+            this.loginForm.value.password = Md5.hashStr(this.loginForm.value.password);
 
-        if (this.email.hasError('required') || this.password.hasError('required')) {
-            isValid = false;
-            this.toastr.error('Please enter your Email / Password', 'Login Error', {
-                positionClass: 'toast-top-center'
-            });
-        }
-
-        if (this.email.hasError('email')) {
-            isValid = false;
-            this.toastr.error('Not a valid email', 'Login Error', {
-                positionClass: 'toast-top-center'
-            });
-        }
-
-        if (isValid) {
-            const hashPwd = Md5.hashStr(this.password.value);
-            const loginArray = {email: this.email.value, password: hashPwd};
-            this.http.post(this.configService.getLoginUrl(), loginArray, this.httpOptions)
+            this.http.post(this.configService.getLoginUrl(), this.loginForm.value, this.httpOptions)
                 .subscribe(loginResponse => {
                     this.loginData = loginResponse;
                     // this.cookieService.set('a', this.loginForm.value.email);
@@ -101,7 +87,7 @@ export class LoginComponent implements OnInit {
                     this.router.navigateByUrl('/dashboard');
                 }, error => {
                     if (error.status === 401 || error.status === 404 || error.status === 422) {
-                        this.toastr.warning('Email / Password is incorrect', 'Login Failed', {
+                        this.toastr.error('Email / Password is incorrect', 'Login Failed', {
                             positionClass: 'toast-top-center'
                         });
                     }

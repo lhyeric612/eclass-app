@@ -1,0 +1,3 @@
+.pointer { cursor: pointer; }
+.highlight:hover { background: #0e9aef; }
+.highlight:hover > td { color: #ffffff; }

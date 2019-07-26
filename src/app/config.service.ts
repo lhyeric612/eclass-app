@@ -6,37 +6,33 @@ import { Injectable } from '@angular/core';
 export class ConfigService {
 
     private basicUrl = 'http://localhost:3000/';
-    private loginUrl: string;
-    private userMeUrl: string;
-    private userRoleUrl: string;
-    private userListUrl: string;
-    private roleListUrl: string;
 
     constructor() { }
 
+    // Users API
+    getUserUrl() {
+        return this.basicUrl + 'users';
+    }
+
     getLoginUrl() {
-        this.loginUrl = this.basicUrl + 'users/login';
-        return this.loginUrl;
+        return this.basicUrl + 'users/login';
     }
 
     getUserMeUrl() {
-        this.userMeUrl = this.basicUrl + 'users/me';
-        return this.userMeUrl;
+        return this.basicUrl + 'users/me';
     }
 
     getUserRoleUrl(userId) {
-        this.userRoleUrl = this.basicUrl + 'users/' + userId + '/role';
-        return this.userRoleUrl;
+        return this.basicUrl + 'users/' + userId + '/role';
     }
 
-    getUserListUrl() {
-        this.userListUrl = this.basicUrl + 'users';
-        return this.userListUrl;
+    getUserByIdUrl(userId) {
+        return this.basicUrl + 'users/' + userId;
     }
 
+    // Roles API
     getRoleUrl() {
-        this.roleListUrl = this.basicUrl + 'roles';
-        return this.roleListUrl;
+        return this.basicUrl + 'roles';
     }
 
 }

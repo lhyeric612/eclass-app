@@ -3,8 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ConfigService } from '../config.service';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-nav',
@@ -18,6 +17,8 @@ export class NavComponent implements OnInit {
     private userId: string;
     private displayName: string;
     private userRoleName: string;
+    private userMeData: any;
+    private userRoleData: any;
 
     constructor(
         private cookieService: CookieService,
@@ -25,8 +26,7 @@ export class NavComponent implements OnInit {
         private router: Router,
         private configService: ConfigService
     ) {
-        library.add(faBars);
-        if(this.cookieService.check('eclass-app')) {
+        if (this.cookieService.check('eclass-app')) {
             this.httpOptions = {
                 headers: new HttpHeaders({
                     'Content-Type':  'application/json',
@@ -41,16 +41,18 @@ export class NavComponent implements OnInit {
       if (this.cookieService.check('eclass-app')) {
             this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
                 .subscribe(userMenResponse => {
-                    this.userId = userMenResponse.id;
-                    this.displayName = userMenResponse.name;
+                    this.userMeData = userMenResponse;
+                    this.userId = this.userMeData.id;
+                    this.displayName = this.userMeData.name;
                     this.http.get(this.configService.getUserRoleUrl(this.userId), this.httpOptions)
                         .subscribe(userRoleResponse => {
-                            this.userRoleName = userRoleResponse.name;
+                            this.userRoleData = userRoleResponse;
+                            this.userRoleName = this.userRoleData.name;
                         }, error => {
                             console.log(error);
                         });
                 }, error => {
-                    if(error.status === 401) {
+                    if (error.status === 401) {
                         this.cookieService.delete('eclass-app');
                         this.router.navigateByUrl('/');
                     }

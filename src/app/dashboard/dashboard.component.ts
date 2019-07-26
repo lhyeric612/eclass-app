@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        if(this.cookieService.check('eclass-app')) {
+        if (this.cookieService.check('eclass-app')) {
             console.log('token exist');
         }
     }

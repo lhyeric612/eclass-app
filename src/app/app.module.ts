@@ -9,7 +9,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CookieService } from 'ngx-cookie-service';
-import { MatAutocompleteModule, MatInputModule, MatSelectModule, MatButtonModule, MatIconModule } from '@angular/material';
+import {
+    MatAutocompleteModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
+} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -18,13 +27,14 @@ import { NavComponent } from './nav/nav.component';
 import { TopNavComponent } from './top-nav/top-nav.component';
 import { UsersComponent } from './users/users.component';
 import { UsersCreateComponent } from './users-create/users-create.component';
+import { UsersDetailsComponent } from './users-details/users-details.component';
 
 const appRoutes: Routes = [
     { path: '', component: LoginComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'users', component: UsersComponent },
     { path: 'users/create', component: UsersCreateComponent },
-    // { path: 'hero/:id',      component: HeroDetailComponent },
+    { path: 'users/:id',      component: UsersDetailsComponent },
     // {
     //     path: 'heroes',
     //     component: HeroListComponent,
@@ -45,7 +55,8 @@ const appRoutes: Routes = [
     NavComponent,
     TopNavComponent,
     UsersComponent,
-    UsersCreateComponent
+    UsersCreateComponent,
+    UsersDetailsComponent
   ],
     imports: [
         BrowserModule,
@@ -63,7 +74,10 @@ const appRoutes: Routes = [
         MatInputModule,
         MatSelectModule,
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule
     ],
   providers: [ CookieService ],
   bootstrap: [ AppComponent ]
