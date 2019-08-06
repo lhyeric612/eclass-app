@@ -17,7 +17,10 @@ import {
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule, MatProgressSpinnerModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -28,13 +31,46 @@ import { TopNavComponent } from './top-nav/top-nav.component';
 import { UsersComponent } from './users/users.component';
 import { UsersCreateComponent } from './users-create/users-create.component';
 import { UsersDetailsComponent } from './users-details/users-details.component';
+import { SubjectsComponent } from './subjects/subjects.component';
+import { SubjectsCreateComponent } from './subjects-create/subjects-create.component';
+import { SubjectsDetailsComponent } from './subjects-details/subjects-details.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { LevelsComponent } from './levels/levels.component';
+import { LevelsCreateComponent } from './levels-create/levels-create.component';
+import { LevelsDetailsComponent } from './levels-details/levels-details.component';
+import { ClassesComponent } from './classes/classes.component';
+import { ClassesCreateComponent } from './classes-create/classes-create.component';
+import { ClassesDetailsComponent } from './classes-details/classes-details.component';
+import { TeachersComponent } from './teachers/teachers.component';
+import { TeachersCreateComponent } from './teachers-create/teachers-create.component';
+import { TeachersDetailsComponent } from './teachers-details/teachers-details.component';
+import { ParentsComponent } from './parents/parents.component';
+import { ParentsCreateComponent } from './parents-create/parents-create.component';
+import { ParentsDetailsComponent } from './parents-details/parents-details.component';
+import { RefreshComponent } from './refresh/refresh.component';
 
 const appRoutes: Routes = [
     { path: '', component: LoginComponent },
+    { path: 'refresh', component: RefreshComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'users', component: UsersComponent },
     { path: 'users/create', component: UsersCreateComponent },
     { path: 'users/:id',      component: UsersDetailsComponent },
+    { path: 'subjects', component: SubjectsComponent },
+    { path: 'subjects/create', component: SubjectsCreateComponent },
+    { path: 'subjects/:id',      component: SubjectsDetailsComponent },
+    { path: 'levels', component: LevelsComponent },
+    { path: 'levels/create', component: LevelsCreateComponent },
+    { path: 'levels/:id',      component: LevelsDetailsComponent },
+    { path: 'classes', component: ClassesComponent },
+    { path: 'classes/create', component: ClassesCreateComponent },
+    { path: 'classes/:id',      component: ClassesDetailsComponent },
+    { path: 'teachers', component: TeachersComponent },
+    { path: 'teachers/create', component: TeachersCreateComponent },
+    { path: 'teachers/:id',      component: TeachersDetailsComponent },
+    { path: 'parents', component: ParentsComponent },
+    { path: 'parents/create', component: ParentsCreateComponent },
+    { path: 'parents/:id',      component: ParentsDetailsComponent },
     // {
     //     path: 'heroes',
     //     component: HeroListComponent,
@@ -56,7 +92,23 @@ const appRoutes: Routes = [
     TopNavComponent,
     UsersComponent,
     UsersCreateComponent,
-    UsersDetailsComponent
+    UsersDetailsComponent,
+    SubjectsComponent,
+    SubjectsCreateComponent,
+    SubjectsDetailsComponent,
+    LevelsComponent,
+    LevelsCreateComponent,
+    LevelsDetailsComponent,
+    ClassesComponent,
+    ClassesCreateComponent,
+    ClassesDetailsComponent,
+    TeachersComponent,
+    TeachersCreateComponent,
+    TeachersDetailsComponent,
+    ParentsComponent,
+    ParentsCreateComponent,
+    ParentsDetailsComponent,
+    RefreshComponent
   ],
     imports: [
         BrowserModule,
@@ -77,9 +129,14 @@ const appRoutes: Routes = [
         MatIconModule,
         MatTableModule,
         MatPaginatorModule,
-        MatSortModule
+        MatSortModule,
+        MatSlideToggleModule,
+        MatRadioModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatProgressSpinnerModule
     ],
-  providers: [ CookieService ],
+  providers: [ CookieService, MatDatepickerModule ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {}

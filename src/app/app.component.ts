@@ -12,6 +12,8 @@ import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 import { faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +34,8 @@ export class AppComponent {
         library.add(faLayerGroup);
         library.add(faLanguage);
         library.add(faUsers);
+        library.add(faCheck);
+        library.add(faTimes);
     }
 
 }

@@ -15,3 +15,20 @@
 body { background: #ffffff; }
 #wrapper { background-color: #2f4050; }
 .title-action > button { margin-right: 8px; }
+.skin-1 .nav-header { padding: 0 15px 15px; }
+
+.pointer { cursor: pointer; }
+.highlight:hover { background: #0e9aef !important; }
+.highlight:hover > td { color: #ffffff !important; }
+.text-center { text-align: center; }
+
+.mat-cell { vertical-align: middle !important; }
+
+/*color*/
+.success-green { background: #19ad19; color: #ffffff; }
+.error-red { background: #d01b1b; color: #ffffff; }
+.create-green { background: #1ab394; color: #ffffff; }
+
+/*slide*/
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar { background-color: rgba(25, 173, 25, 0.54); }
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb, .mat-slide-toggle.mat-checked .mat-ripple-element { background-color: #19ad19; }

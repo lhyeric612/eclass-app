@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
-import {  FormGroup, FormControl, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { CookieService } from 'ngx-cookie-service';
-import { ConfigService } from '../config.service';
-import { Md5 } from 'ts-md5/dist/md5';
+import {Component, OnInit} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Router} from '@angular/router';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {CookieService} from 'ngx-cookie-service';
+import {ConfigService} from '../config.service';
+import {Md5} from 'ts-md5/dist/md5';
 
 @Component({
     selector: 'app-login',
@@ -58,6 +58,10 @@ export class LoginComponent implements OnInit {
                 }, error => {
                     if (error.status === 401) {
                         this.cookieService.delete('eclass-app');
+                    } else {
+                        this.toastr.error(error.error.message, 'Error', {
+                            positionClass: 'toast-top-center'
+                        });
                     }
                 });
         }
@@ -81,13 +85,17 @@ export class LoginComponent implements OnInit {
             this.http.post(this.configService.getLoginUrl(), this.loginForm.value, this.httpOptions)
                 .subscribe(loginResponse => {
                     this.loginData = loginResponse;
-                    // this.cookieService.set('a', this.loginForm.value.email);
-                    // this.cookieService.set('b', this.loginForm.value.password);
+                    this.cookieService.set('a', this.loginForm.value.email);
+                    this.cookieService.set('b', this.loginForm.value.password);
                     this.cookieService.set( 'eclass-app', this.loginData.token );
                     this.router.navigateByUrl('/dashboard');
                 }, error => {
                     if (error.status === 401 || error.status === 404 || error.status === 422) {
                         this.toastr.error('Email / Password is incorrect', 'Login Failed', {
+                            positionClass: 'toast-top-center'
+                        });
+                    } else {
+                        this.toastr.error(error.error.message, 'Error', {
                             positionClass: 'toast-top-center'
                         });
                     }

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ToastrService } from 'ngx-toastr';
-import { ConfigService } from '../config.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CookieService} from 'ngx-cookie-service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
+import {ConfigService} from '../config.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'app-users-details',
@@ -24,7 +24,8 @@ export class UsersDetailsComponent implements OnInit {
         email: new FormControl('', [Validators.required, Validators.email]),
         firstName: new FormControl('', [Validators.required]),
         lastName: new FormControl('', [Validators.required]),
-        roleId: new FormControl('', [Validators.required])
+        roleId: new FormControl('', [Validators.required]),
+        active: new FormControl('', [Validators.required])
     });
 
     deleteForm = new FormGroup({
@@ -39,14 +40,13 @@ export class UsersDetailsComponent implements OnInit {
         private router: Router,
         private configService: ConfigService
     ) {
-        if (this.cookieService.check('eclass-app')) {
-            this.httpOptions = {
-                headers: new HttpHeaders({
-                    'Content-Type':  'application/json',
-                    Authorization: 'Bearer ' + this.cookieService.get('eclass-app')
-                })
-            };
-        }
+        this.httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type':  'application/json',
+                Authorization: 'Bearer ' + this.cookieService.get('eclass-app')
+            })
+        };
+
     }
 
     ngOnInit() {
@@ -59,6 +59,7 @@ export class UsersDetailsComponent implements OnInit {
                     this.editForm.controls.firstName.setValue(this.userData.firstName);
                     this.editForm.controls.lastName.setValue(this.userData.lastName);
                     this.editForm.controls.roleId.setValue(this.userData.roleId);
+                    this.editForm.controls.active.setValue(this.userData.active);
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

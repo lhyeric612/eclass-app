@@ -2,7 +2,10 @@
     <div class="sidebar-collapse">
         <ul class="nav" id="side-menu">
             <li class="nav-header">
-                <div class="dropdown profile-element"> <span></span>
+                <div class="dropdown profile-element">
+                    <span>
+                        <img src="/assets/images/logo.jpg" width="100%"/>
+                    </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ displayName }}</strong>
                              </span> <span class="text-muted text-xs block">{{ userRoleName }}<b class="caret"></b></span> </span> </a>
@@ -18,62 +21,62 @@
                     <img src="/assets/images/logo.jpg" width="100%"/>
                 </div>
             </li>
-            <li class="active">
-                <a routerLink="/dashboard" routerLinkActive="active">
+            <li [ngClass]="{'active': menuActive.includes('dashboard')}">
+                <a (click)="changeRoutLink('dashboard')">
                     <fa-icon icon="tachometer-alt"></fa-icon>
                     <span class="nav-label">Dashboard</span>
                 </a>
             </li>
-            <li>
-                <a routerLink="/parents">
+            <li [ngClass]="{'active': menuActive.includes('parents')}">
+                <a (click)="changeRoutLink('parents')">
                     <fa-icon icon="user-friends"></fa-icon>
                     <span class="nav-label">Parents</span>
                 </a>
             </li>
-            <li>
-                <a routerLink="/students">
+            <li [ngClass]="{'active': menuActive.includes('students')}">
+                <a (click)="changeRoutLink('students')">
                     <fa-icon icon="user-graduate"></fa-icon>
                     <span class="nav-label">Students</span>
                 </a>
             </li>
-            <li>
-                <a routerLink="/teacher-lessons">
+            <li [ngClass]="{'active': menuActive.includes('teacher-lessons')}">
+                <a (click)="changeRoutLink('teacher-lessons')">
                     <fa-icon icon="chalkboard-teacher"></fa-icon>
                     <span class="nav-label">Teacher Lessons</span>
                 </a>
             </li>
-            <li>
-                <a routerLink="/teachers">
+            <li [ngClass]="{'active': menuActive.includes('teachers')}">
+                <a (click)="changeRoutLink('teachers')">
                     <fa-icon icon="user-tie"></fa-icon>
                     <span class="nav-label">Teachers</span>
                 </a>
             </li>
-            <li>
-                <a routerLink="/classes">
+            <li [ngClass]="{'active': menuActive.includes('classes')}">
+                <a (click)="changeRoutLink('classes')">
                     <fa-icon icon="chalkboard"></fa-icon>
                     <span class="nav-label">Classes</span>
                 </a>
             </li>
-            <li>
-                <a routerLink="/courses">
+            <li [ngClass]="{'active': menuActive.includes('courses')}">
+                <a (click)="changeRoutLink('courses')">
                     <fa-icon icon="book-open"></fa-icon>
                     <span class="nav-label">Courses</span>
                 </a>
             </li>
-            <li>
-                <a routerLink="/levels">
+            <li [ngClass]="{'active': menuActive.includes('levels')}">
+                <a (click)="changeRoutLink('levels')">
                     <fa-icon icon="layer-group"></fa-icon>
                     <span class="nav-label">Levels</span>
                 </a>
             </li>
-            <li>
-                <a routerLink="/subjects">
+            <li [ngClass]="{'active': menuActive.includes('subjects')}">
+                <a (click)="changeRoutLink('subjects')">
                     <fa-icon icon="language"></fa-icon>
                     <span class="nav-label">Subjects</span>
                 </a>
             </li>
-            <li>
-                <a routerLink="/users">
+            <li [ngClass]="{'active': menuActive.includes('users')}">
+                <a (click)="changeRoutLink('users')">
                     <fa-icon icon="users"></fa-icon>
                     <span class="nav-label">Users</span>
                 </a>

@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {FormBuilder} from '@angular/forms';
+import {CookieService} from 'ngx-cookie-service';
+import {Router} from '@angular/router';
 
 import { ConfigService } from '../config.service';
 import { DOCUMENT } from '@angular/common';
@@ -29,31 +29,9 @@ export class TopNavComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private configService: ConfigService
-    ) {
-        if (this.cookieService.check('eclass-app')) {
-            this.httpOptions = {
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + this.cookieService.get('eclass-app')
-                })
-            };
-        }
-    }
+    ) {}
 
-    ngOnInit() {
-        if(this.cookieService.check('eclass-app')) {
-            this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
-                .subscribe(userMenResponse => {
-                    this.userMeData = userMenResponse;
-                    this.displayName = this.userMeData.name;
-                }, error => {
-                    if (error.status === 401) {
-                        this.cookieService.delete('eclass-app');
-                        this.router.navigateByUrl('/');
-                    }
-                });
-        }
-    }
+    ngOnInit() {}
 
     onKeywordChange(keyword) {
         console.log(keyword);

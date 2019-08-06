@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router';
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { ConfigService } from '../config.service';
-import { ToastrService } from 'ngx-toastr';
-import { Md5 } from 'ts-md5/dist/md5';
+import {Component, OnInit} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {CookieService} from 'ngx-cookie-service';
+import {Router} from '@angular/router';
+import {ConfigService} from '../config.service';
+import {ToastrService} from 'ngx-toastr';
+import {Md5} from 'ts-md5/dist/md5';
 
 @Component({
   selector: 'app-users-create',
@@ -36,14 +34,12 @@ export class UsersCreateComponent implements OnInit {
         private router: Router,
         private configService: ConfigService
     ) {
-        if (this.cookieService.check('eclass-app')) {
-            this.httpOptions = {
-                headers: new HttpHeaders({
-                    'Content-Type':  'application/json',
-                    Authorization: 'Bearer ' + this.cookieService.get('eclass-app')
-                })
-            };
-        }
+        this.httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type':  'application/json',
+                Authorization: 'Bearer ' + this.cookieService.get('eclass-app')
+            })
+        };
     }
 
     ngOnInit() {
@@ -51,7 +47,9 @@ export class UsersCreateComponent implements OnInit {
           .subscribe(roleListResponse => {
               this.roles = roleListResponse;
           }, error => {
-              console.log(error);
+              this.toastr.error(error.error.message, 'Error', {
+                  positionClass: 'toast-top-center'
+              });
           });
     }
 
@@ -92,13 +90,16 @@ export class UsersCreateComponent implements OnInit {
 
     onSubmit() {
         if (this.createForm.valid) {
+            this.createForm.value.active = true;
             if (this.createForm.value.password === this.confirmPassword.value) {
                 this.createForm.value.password = Md5.hashStr(this.createForm.value.password);
                 this.http.post(this.configService.getUserUrl(), this.createForm.value, this.httpOptions)
                     .subscribe( response => {
                         this.router.navigateByUrl('/users');
                     }, error => {
-                       console.log(error);
+                        this.toastr.error(error.error.message, 'Error', {
+                            positionClass: 'toast-top-center'
+                        });
                     });
             } else {
                 this.toastr.warning('Password and confirm password MUST be same.', 'Warning', {
