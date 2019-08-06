@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {ConfigService} from '../config.service';
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-levels',
@@ -28,7 +29,8 @@ export class LevelsComponent implements OnInit {
         private http: HttpClient,
         private toastr: ToastrService,
         private router: Router,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -59,11 +61,11 @@ export class LevelsComponent implements OnInit {
     }
 
     create() {
-        this.router.navigateByUrl('/levels/create');
+        this.navigationService.changeUrl('/levels/create');
     }
 
     view(row) {
-        this.router.navigateByUrl('/levels/' + row.id);
+        this.navigationService.changeUrl('/levels/' + row.id);
     }
 
 }

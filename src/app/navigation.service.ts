@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ConfigService} from './config.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Router} from '@angular/router';
+import {Router, NavigationEnd} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {ToastrService} from 'ngx-toastr';
 
@@ -15,6 +15,8 @@ export class NavigationService {
     private password: string;
     private loginData: { password: string; email: string };
     private loginRes: any;
+    private currentUrl: string;
+    private previousUrl: string;
 
     constructor(
         private configService: ConfigService,
@@ -22,13 +24,28 @@ export class NavigationService {
         private router: Router,
         private cookieService: CookieService,
         private toastr: ToastrService,
-    ) {}
+    ) {
+        this.currentUrl = this.router.url;
+        router.events.subscribe(event => {
+            if (event instanceof NavigationEnd) {
+              this.previousUrl = this.currentUrl;
+              this.currentUrl = event.url;
+            }
+          });
+    }
 
-    changeUrl(url) {
+    private getPreviousUrl() {
+        return this.previousUrl;
+    }
+
+    public back() {
+        this.changeUrl(this.getPreviousUrl());
+    }
+
+    public changeUrl(url) {
         this.token = (this.cookieService.check('eclass-app')) ? this.cookieService.get('eclass-app') : '';
         this.email = (this.cookieService.check('a')) ? this.cookieService.get('a') : '';
         this.password = (this.cookieService.check('b')) ? this.cookieService.get('b') : '';
-        console.log(url + ' ' + this.token);
         if (this.token) {
             this.httpOptions = {
                 headers: new HttpHeaders({
@@ -38,7 +55,6 @@ export class NavigationService {
             };
             this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
                 .subscribe(userMeResponse => {
-                    console.log(userMeResponse);
                     this.router.navigateByUrl('/' + url);
                 }, error => {
                     console.log(error);

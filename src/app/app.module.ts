@@ -47,11 +47,9 @@ import { TeachersDetailsComponent } from './teachers-details/teachers-details.co
 import { ParentsComponent } from './parents/parents.component';
 import { ParentsCreateComponent } from './parents-create/parents-create.component';
 import { ParentsDetailsComponent } from './parents-details/parents-details.component';
-import { RefreshComponent } from './refresh/refresh.component';
 
 const appRoutes: Routes = [
     { path: '', component: LoginComponent },
-    { path: 'refresh', component: RefreshComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'users', component: UsersComponent },
     { path: 'users/create', component: UsersCreateComponent },
@@ -107,8 +105,7 @@ const appRoutes: Routes = [
     TeachersDetailsComponent,
     ParentsComponent,
     ParentsCreateComponent,
-    ParentsDetailsComponent,
-    RefreshComponent
+    ParentsDetailsComponent
   ],
     imports: [
         BrowserModule,

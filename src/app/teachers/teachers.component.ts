@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {ConfigService} from '../config.service';
+import { NavigationService } from '../navigation.service';
 
 @Component({
     selector: 'app-teachers',
@@ -28,7 +29,8 @@ export class TeachersComponent implements OnInit {
         private http: HttpClient,
         private toastr: ToastrService,
         private router: Router,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -54,9 +56,7 @@ export class TeachersComponent implements OnInit {
                 this.dataSource.sort = this.sort;
                 this.dataSource.paginator = this.paginator;
             }, error => {
-                this.toastr.error(error.error.message, 'Error', {
-                    positionClass: 'toast-top-center'
-                });
+                this.router.navigateByUrl('/');
             });
     }
 
@@ -65,11 +65,11 @@ export class TeachersComponent implements OnInit {
     }
 
     create() {
-        this.router.navigateByUrl('/teachers/create');
+        this.navigationService.changeUrl('/teachers/create');
     }
 
     view(row) {
-        this.router.navigateByUrl('/teachers/' + row.id);
+        this.navigationService.changeUrl('/teachers/' + row.id);
     }
 }
 

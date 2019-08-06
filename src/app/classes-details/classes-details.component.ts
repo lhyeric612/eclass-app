@@ -7,6 +7,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {ConfigService} from '../config.service';
 import {DatePipe} from '@angular/common';
+import { NavigationService } from '../navigation.service';
 
 @Component({
     selector: 'app-classes-details',
@@ -41,7 +42,8 @@ export class ClassesDetailsComponent implements OnInit {
         private toastr: ToastrService,
         private router: Router,
         private configService: ConfigService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -81,7 +83,7 @@ export class ClassesDetailsComponent implements OnInit {
     }
 
     back() {
-        this.router.navigateByUrl('/classes');
+        this.navigationService.back();
     }
 
     getDisplayNameErrorMessage() {
@@ -106,8 +108,8 @@ export class ClassesDetailsComponent implements OnInit {
             this.editForm.value.update_date = this.now;
             this.editForm.value.update_by = this.userId;
             this.http.patch(this.configService.getClassesByIdUrl(this.classesId), this.editForm.value, this.httpOptions)
-                .subscribe( response => {
-                    this.router.navigateByUrl('/classes');
+                .subscribe(response => {
+                    this.navigationService.changeUrl('/classes');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -120,7 +122,7 @@ export class ClassesDetailsComponent implements OnInit {
         if (this.deleteForm.valid && this.deleteForm.controls.deleteClassesId.value === this.classesId) {
             this.http.delete(this.configService.getClassesByIdUrl(this.classesId), this.httpOptions)
                 .subscribe(response => {
-                    this.router.navigateByUrl('/classes');
+                    this.navigationService.changeUrl('/classes');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

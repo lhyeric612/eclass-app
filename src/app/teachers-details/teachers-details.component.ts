@@ -7,6 +7,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {ConfigService} from '../config.service';
 import {DatePipe} from '@angular/common';
+import { NavigationService } from '../navigation.service';
 
 @Component({
     selector: 'app-teachers-details',
@@ -46,7 +47,8 @@ export class TeachersDetailsComponent implements OnInit {
         private toastr: ToastrService,
         private router: Router,
         private configService: ConfigService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -63,10 +65,7 @@ export class TeachersDetailsComponent implements OnInit {
                     this.userMeData = userMenResponse;
                     this.userId = this.userMeData.id;
                 }, error => {
-                    // if (error.status === 401) {
-                    //     this.cookieService.delete('eclass-app');
-                    //     this.router.navigateByUrl('/');
-                    // }
+                    this.router.navigateByUrl('/');
                 });
         }
         this.routeSub = this.route.params.subscribe(params => {
@@ -91,7 +90,7 @@ export class TeachersDetailsComponent implements OnInit {
     }
 
     back() {
-        this.router.navigateByUrl('/teachers');
+        this.navigationService.back();
     }
 
     getFirstNameErrorMessage() {
@@ -129,7 +128,7 @@ export class TeachersDetailsComponent implements OnInit {
             this.editForm.value.update_by = this.userId;
             this.http.patch(this.configService.getTeacherByIdUrl(this.teacherId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.router.navigateByUrl('/teachers');
+                    this.navigationService.changeUrl('/teachers');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -142,7 +141,7 @@ export class TeachersDetailsComponent implements OnInit {
         if (this.deleteForm.valid && this.deleteForm.controls.deleteTeacherId.value === this.teacherId) {
             this.http.delete(this.configService.getTeacherByIdUrl(this.teacherId), this.httpOptions)
                 .subscribe(response => {
-                    this.router.navigateByUrl('/teachers');
+                    this.navigationService.changeUrl('/teachers');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

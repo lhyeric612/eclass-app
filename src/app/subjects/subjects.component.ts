@@ -7,6 +7,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material';
 import {ToastrService} from 'ngx-toastr';
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-subjects',
@@ -30,7 +31,8 @@ export class SubjectsComponent implements OnInit {
         private http: HttpClient,
         private toastr: ToastrService,
         private router: Router,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -50,9 +52,7 @@ export class SubjectsComponent implements OnInit {
                 this.dataSource.sort = this.sort;
                 this.dataSource.paginator = this.paginator;
             }, error => {
-                this.toastr.error(error.error.message, 'Error', {
-                    positionClass: 'toast-top-center'
-                });
+                this.router.navigateByUrl('/');
             });
     }
 
@@ -61,11 +61,11 @@ export class SubjectsComponent implements OnInit {
     }
 
     create() {
-        this.router.navigateByUrl('/subjects/create');
+        this.navigationService.changeUrl('/subjects/create');
     }
 
     view(row) {
-        this.router.navigateByUrl('/subjects/' + row.id);
+        this.navigationService.changeUrl('/subjects/' + row.id);
     }
 
 }

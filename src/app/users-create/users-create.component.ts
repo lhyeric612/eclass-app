@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {ConfigService} from '../config.service';
 import {ToastrService} from 'ngx-toastr';
 import {Md5} from 'ts-md5/dist/md5';
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-users-create',
@@ -32,7 +33,8 @@ export class UsersCreateComponent implements OnInit {
         private http: HttpClient,
         private toastr: ToastrService,
         private router: Router,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -47,14 +49,12 @@ export class UsersCreateComponent implements OnInit {
           .subscribe(roleListResponse => {
               this.roles = roleListResponse;
           }, error => {
-              this.toastr.error(error.error.message, 'Error', {
-                  positionClass: 'toast-top-center'
-              });
+            this.router.navigateByUrl('/');
           });
     }
 
     back() {
-        this.router.navigateByUrl('/users');
+        this.navigationService.back();
     }
 
     getEmailErrorMessage() {
@@ -95,7 +95,7 @@ export class UsersCreateComponent implements OnInit {
                 this.createForm.value.password = Md5.hashStr(this.createForm.value.password);
                 this.http.post(this.configService.getUserUrl(), this.createForm.value, this.httpOptions)
                     .subscribe( response => {
-                        this.router.navigateByUrl('/users');
+                        this.navigationService.changeUrl('/users');
                     }, error => {
                         this.toastr.error(error.error.message, 'Error', {
                             positionClass: 'toast-top-center'

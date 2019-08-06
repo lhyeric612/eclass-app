@@ -7,6 +7,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material';
 import {ToastrService} from 'ngx-toastr';
+import { NavigationService } from '../navigation.service';
 
 @Component({
     selector: 'app-users',
@@ -31,7 +32,8 @@ export class UsersComponent implements OnInit {
         private http: HttpClient,
         private toastr: ToastrService,
         private router: Router,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -59,16 +61,12 @@ export class UsersComponent implements OnInit {
                                 this.dataSource.sort = this.sort;
                                 this.dataSource.paginator = this.paginator;
                             }, error => {
-                                this.toastr.error(error.error.message, 'Error', {
-                                    positionClass: 'toast-top-center'
-                                });
+                                this.router.navigateByUrl('/');
                             });
                     }
                 }
             }, error => {
-                this.toastr.error(error.error.message, 'Error', {
-                    positionClass: 'toast-top-center'
-                });
+                this.router.navigateByUrl('/');
             });
     }
 
@@ -77,11 +75,11 @@ export class UsersComponent implements OnInit {
     }
 
     create() {
-        this.router.navigateByUrl('/users/create');
+        this.navigationService.changeUrl('/users/create');
     }
 
     view(row) {
-        this.router.navigateByUrl('/users/' + row.id);
+        this.navigationService.changeUrl('/users/' + row.id);
     }
 }
 

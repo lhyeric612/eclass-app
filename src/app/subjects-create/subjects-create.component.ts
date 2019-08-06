@@ -6,6 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {ConfigService} from '../config.service';
 import {DatePipe} from '@angular/common';
+import { NavigationService } from '../navigation.service';
 
 @Component({
     selector: 'app-subjects-create',
@@ -31,7 +32,8 @@ export class SubjectsCreateComponent implements OnInit {
         private toastr: ToastrService,
         private router: Router,
         private configService: ConfigService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -48,16 +50,13 @@ export class SubjectsCreateComponent implements OnInit {
                     this.userMeData = userMenResponse;
                     this.userId = this.userMeData.id;
                 }, error => {
-                    // if (error.status === 401) {
-                    //     this.cookieService.delete('eclass-app');
-                    //     this.router.navigateByUrl('/');
-                    // }
+                    this.router.navigateByUrl('/');
                 });
         }
     }
 
     back() {
-        this.router.navigateByUrl('/subjects');
+        this.navigationService.back();
     }
 
     getDisplayNameErrorMessage() {
@@ -79,7 +78,7 @@ export class SubjectsCreateComponent implements OnInit {
             this.createForm.value.active = true;
             this.http.post(this.configService.getSubjectsUrl(), this.createForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.router.navigateByUrl('/subjects');
+                    this.navigationService.changeUrl('/subjects');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

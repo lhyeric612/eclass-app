@@ -7,6 +7,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {ConfigService} from '../config.service';
 import {DatePipe} from '@angular/common';
+import { NavigationService } from '../navigation.service';
 
 @Component({
     selector: 'app-parents-details',
@@ -48,7 +49,8 @@ export class ParentsDetailsComponent implements OnInit {
         private toastr: ToastrService,
         private router: Router,
         private configService: ConfigService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -65,10 +67,7 @@ export class ParentsDetailsComponent implements OnInit {
                     this.userMeData = userMenResponse;
                     this.userId = this.userMeData.id;
                 }, error => {
-                    // if (error.status === 401) {
-                    //     this.cookieService.delete('eclass-app');
-                    //     this.router.navigateByUrl('/');
-                    // }
+                    this.router.navigateByUrl('/');
                 });
         }
         this.routeSub = this.route.params.subscribe(params => {
@@ -95,7 +94,7 @@ export class ParentsDetailsComponent implements OnInit {
     }
 
     back() {
-        this.router.navigateByUrl('/parents');
+        this.navigationService.back();
     }
 
     getFirstNameErrorMessage() {
@@ -120,7 +119,7 @@ export class ParentsDetailsComponent implements OnInit {
     }
 
     getParentIdErrorMessage() {
-        return this.deleteForm.controls.deleteParentId.hasError('required') ? 'Please enter teacher id' :
+        return this.deleteForm.controls.deleteParentId.hasError('required') ? 'Please enter parent id' :
             '';
     }
 
@@ -131,9 +130,9 @@ export class ParentsDetailsComponent implements OnInit {
             this.editForm.value.birthday = this.datePipe.transform(this.editForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');
             this.editForm.value.update_date = this.now;
             this.editForm.value.update_by = this.userId;
-            this.http.patch(this.configService.getTeacherByIdUrl(this.parentId), this.editForm.value, this.httpOptions)
+            this.http.patch(this.configService.getParentByIdUrl(this.parentId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.router.navigateByUrl('/teachers');
+                    this.router.navigateByUrl('/parents');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -144,7 +143,7 @@ export class ParentsDetailsComponent implements OnInit {
 
     onDelete() {
         if (this.deleteForm.valid && this.deleteForm.controls.deleteParentId.value === this.parentId) {
-            this.http.delete(this.configService.getTeacherByIdUrl(this.parentId), this.httpOptions)
+            this.http.delete(this.configService.getParentByIdUrl(this.parentId), this.httpOptions)
                 .subscribe(response => {
                     this.router.navigateByUrl('/parents');
                 }, error => {

@@ -64,6 +64,9 @@ export class LoginComponent implements OnInit {
                         });
                     }
                 });
+        } else {
+            this.cookieService.delete('a');
+            this.cookieService.delete('b');
         }
     }
 

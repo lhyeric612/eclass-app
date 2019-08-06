@@ -6,6 +6,7 @@ import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {ConfigService} from '../config.service';
 import {DatePipe} from '@angular/common';
+import { NavigationService } from '../navigation.service';
 
 @Component({
     selector: 'app-teachers-create',
@@ -36,7 +37,8 @@ export class TeachersCreateComponent implements OnInit {
         private toastr: ToastrService,
         private router: Router,
         private configService: ConfigService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -52,15 +54,12 @@ export class TeachersCreateComponent implements OnInit {
                 this.userMeData = userMenResponse;
                 this.userId = this.userMeData.id;
             }, error => {
-                console.log(error);
-                this.toastr.error(error.error.message, 'Error', {
-                    positionClass: 'toast-top-center'
-                });
+                this.router.navigateByUrl('/');
             });
     }
 
     back() {
-        this.router.navigateByUrl('/teachers');
+        this.navigationService.back();
     }
 
     getFirstNameErrorMessage() {
@@ -94,7 +93,7 @@ export class TeachersCreateComponent implements OnInit {
             this.createForm.value.active = true;
             this.http.post(this.configService.getTeachersUrl(), this.createForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.router.navigateByUrl('/teachers');
+                    this.navigationService.changeUrl('/teachers');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {ConfigService} from '../config.service';
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-parents',
@@ -42,7 +43,8 @@ export class ParentsComponent implements OnInit {
         private http: HttpClient,
         private toastr: ToastrService,
         private router: Router,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -68,9 +70,7 @@ export class ParentsComponent implements OnInit {
                                 parentData.studentsCount = this.studentsList.length;
                                 parentData.students = this.studentsList;
                             }, error2 => {
-                                this.toastr.error(error2.error.message, 'Error', {
-                                    positionClass: 'toast-top-center'
-                                });
+                                this.router.navigateByUrl('/');
                             });
                     }
                 }
@@ -78,9 +78,7 @@ export class ParentsComponent implements OnInit {
                 this.dataSource.sort = this.sort;
                 this.dataSource.paginator = this.paginator;
             }, error => {
-                this.toastr.error(error.error.message, 'Error', {
-                    positionClass: 'toast-top-center'
-                });
+                this.router.navigateByUrl('/');
             });
     }
 
@@ -89,11 +87,11 @@ export class ParentsComponent implements OnInit {
     }
 
     create() {
-        this.router.navigateByUrl('/parents/create');
+        this.navigationService.changeUrl('/parents/create');
     }
 
     view(row) {
-        this.router.navigateByUrl('/parents/' + row.id);
+        this.navigationService.changeUrl('/parents/' + row.id);
     }
 }
 

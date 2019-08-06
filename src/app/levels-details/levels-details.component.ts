@@ -7,6 +7,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {ConfigService} from '../config.service';
 import {DatePipe} from '@angular/common';
+import { NavigationService } from '../navigation.service';
 
 @Component({
     selector: 'app-levels-details',
@@ -41,7 +42,8 @@ export class LevelsDetailsComponent implements OnInit {
         private toastr: ToastrService,
         private router: Router,
         private configService: ConfigService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -58,10 +60,7 @@ export class LevelsDetailsComponent implements OnInit {
                     this.userMeData = userMenResponse;
                     this.userId = this.userMeData.id;
                 }, error => {
-                    // if (error.status === 401) {
-                    //     this.cookieService.delete('eclass-app');
-                    //     this.router.navigateByUrl('/');
-                    // }
+                    this.router.navigateByUrl('/');
                 });
         }
         this.routeSub = this.route.params.subscribe(params => {
@@ -81,7 +80,7 @@ export class LevelsDetailsComponent implements OnInit {
     }
 
     back() {
-        this.router.navigateByUrl('/levels');
+        this.navigationService.back();
     }
 
     getDisplayNameErrorMessage() {
@@ -107,7 +106,7 @@ export class LevelsDetailsComponent implements OnInit {
             this.editForm.value.update_by = this.userId;
             this.http.patch(this.configService.getLevelByIdUrl(this.levelId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.router.navigateByUrl('/levels');
+                    this.navigationService.changeUrl('/levels');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -120,7 +119,7 @@ export class LevelsDetailsComponent implements OnInit {
         if (this.deleteForm.valid && this.deleteForm.controls.deleteLevelId.value === this.levelId) {
             this.http.delete(this.configService.getLevelByIdUrl(this.levelId), this.httpOptions)
                 .subscribe(response => {
-                    this.router.navigateByUrl('/levels');
+                    this.navigationService.changeUrl('/levels');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

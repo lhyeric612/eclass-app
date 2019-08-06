@@ -6,6 +6,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {ConfigService} from '../config.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { NavigationService } from '../navigation.service';
 
 @Component({
     selector: 'app-users-details',
@@ -38,7 +39,8 @@ export class UsersDetailsComponent implements OnInit {
         private http: HttpClient,
         private toastr: ToastrService,
         private router: Router,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private navigationService: NavigationService,
     ) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -61,23 +63,19 @@ export class UsersDetailsComponent implements OnInit {
                     this.editForm.controls.roleId.setValue(this.userData.roleId);
                     this.editForm.controls.active.setValue(this.userData.active);
                 }, error => {
-                    this.toastr.error(error.error.message, 'Error', {
-                        positionClass: 'toast-top-center'
-                    });
+                    this.router.navigateByUrl('/');
                 });
         });
         this.http.get(this.configService.getRoleUrl(), this.httpOptions)
             .subscribe(roleListResponse => {
                 this.roles = roleListResponse;
             }, error => {
-                this.toastr.error(error.error.message, 'Error', {
-                    positionClass: 'toast-top-center'
-                });
+                this.router.navigateByUrl('/');
             });
     }
 
     back() {
-        this.router.navigateByUrl('/users');
+        this.navigationService.back();
     }
 
     getEmailErrorMessage() {
@@ -110,7 +108,7 @@ export class UsersDetailsComponent implements OnInit {
         if (this.editForm.valid) {
             this.http.patch(this.configService.getUserByIdUrl(this.userId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.router.navigateByUrl('/users');
+                    this.navigationService.changeUrl('/users');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -123,7 +121,7 @@ export class UsersDetailsComponent implements OnInit {
         if (this.deleteForm.valid && this.deleteForm.controls.deleteUserId.value === this.userId) {
             this.http.delete(this.configService.getUserByIdUrl(this.userId), this.httpOptions)
                 .subscribe(response => {
-                    this.router.navigateByUrl('/users');
+                    this.navigationService.changeUrl('/users');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
