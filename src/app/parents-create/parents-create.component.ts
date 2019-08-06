@@ -21,19 +21,6 @@ export class ParentsCreateComponent implements OnInit {
     private userId: string;
     private now: any;
 
-    numbers = [
-        {label: '1', value: 1},
-        {label: '2', value: 2},
-        {label: '3', value: 3},
-        {label: '4', value: 4},
-        {label: '5', value: 5},
-        {label: '6', value: 6},
-        {label: '7', value: 7},
-        {label: '8', value: 8},
-        {label: '9', value: 9},
-        {label: '10', value: 10}
-        ];
-
     createForm = new FormGroup({
         firstName: new FormControl('', [Validators.required]),
         lastName: new FormControl('', [Validators.required]),
@@ -109,7 +96,6 @@ export class ParentsCreateComponent implements OnInit {
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.createForm.valid) {
             this.createForm.value.birthday = this.datePipe.transform(this.createForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');
-            this.createForm.value.studentCreatedCount = 0;
             this.createForm.value.create_date = this.now;
             this.createForm.value.create_by = this.userId;
             this.createForm.value.active = true;

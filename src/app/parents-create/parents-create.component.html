@@ -102,19 +102,6 @@
                                                 </mat-form-field>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-8 col-sm-offset-2">
-                                                <mat-form-field class="full-width">
-                                                    <mat-label>Number of students</mat-label>
-                                                    <mat-select formControlName="studentCount" required>
-                                                        <mat-option *ngFor="let number of numbers" [value]="number.value">
-                                                            {{number.label}}
-                                                        </mat-option>
-                                                    </mat-select>
-                                                    <mat-error *ngIf="createForm.invalid">{{getStudentCountErrorMessage()}}</mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
                                     </form>
                                 </div>
                             </div>
