@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {Subscription} from 'rxjs';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CookieService} from 'ngx-cookie-service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ToastrService} from 'ngx-toastr';
-import {ConfigService} from '../config.service';
-import {DatePipe} from '@angular/common';
+import { Subscription } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { ConfigService } from '../config.service';
+import { DatePipe } from '@angular/common';
 import { NavigationService } from '../navigation.service';
 
 @Component({
@@ -43,7 +43,6 @@ export class LevelsDetailsComponent implements OnInit {
         private cookieService: CookieService,
         private http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private datePipe: DatePipe,
         private navigationService: NavigationService,
@@ -57,30 +56,26 @@ export class LevelsDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.cookieService.check('eclass-app')) {
-            this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
-                .subscribe(userMenResponse => {
-                    this.userMeData = userMenResponse;
-                    this.userId = this.userMeData.id;
-                    this.progressMode = 'determinate';
-                    this.progressValue = 100;
-                }, error => {
-                    this.router.navigateByUrl('/');
-                });
-        }
         this.routeSub = this.route.params.subscribe(params => {
             this.levelId = params.id;
-            this.http.get(this.configService.getLevelByIdUrl(this.levelId), this.httpOptions)
-                .subscribe(userByIdResponse => {
-                    this.levelData = userByIdResponse;
-                    this.editForm.controls.displayName.setValue(this.levelData.displayName);
-                    this.editForm.controls.code.setValue(this.levelData.code);
-                    this.editForm.controls.active.setValue(this.levelData.active);
-                }, error => {
-                    this.toastr.error(error.error.message, 'Error', {
-                        positionClass: 'toast-top-center'
+            this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
+            .subscribe(userMenResponse => {
+                this.userMeData = userMenResponse;
+                this.userId = this.userMeData.id;
+                this.http.get(this.configService.getLevelByIdUrl(this.levelId), this.httpOptions)
+                    .subscribe(userByIdResponse => {
+                        this.levelData = userByIdResponse;
+                        this.editForm.controls.displayName.setValue(this.levelData.displayName);
+                        this.editForm.controls.code.setValue(this.levelData.code);
+                        this.editForm.controls.active.setValue(this.levelData.active);
+                        this.progressMode = 'determinate';
+                        this.progressValue = 100;
+                    }, error => {
+                        this.navigationService.changeUrl('levels-details');
                     });
-                });
+            }, error => {
+                this.navigationService.changeUrl('levels-details');
+            });
         });
     }
 

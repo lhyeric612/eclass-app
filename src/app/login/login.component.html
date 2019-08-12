@@ -8,7 +8,7 @@
         <form class="m-t" role="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <mat-form-field class="full-width">
-                    <input matInput id="email" type="email" class="form-control" placeholder="Email" required email formControlName="email">
+                    <input matInput id="username" type="text" class="form-control" placeholder="Username" required formControlName="email">
                     <mat-error *ngIf="loginForm.invalid">{{getEmailErrorMessage()}}</mat-error>
                 </mat-form-field>
             </div>

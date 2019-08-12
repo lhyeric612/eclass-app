@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Subscription} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
@@ -43,7 +43,6 @@ export class SubjectsDetailsComponent implements OnInit {
         private cookieService: CookieService,
         private http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private datePipe: DatePipe,
         private navigationService: NavigationService,
@@ -57,29 +56,25 @@ export class SubjectsDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.cookieService.check('eclass-app')) {
+        this.routeSub = this.route.params.subscribe(params => {
+            this.subjectId = params.id;
             this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
                 .subscribe(userMenResponse => {
                     this.userMeData = userMenResponse;
                     this.userId = this.userMeData.id;
+                    this.http.get(this.configService.getSubjectByIdUrl(this.subjectId), this.httpOptions)
+                        .subscribe(userByIdResponse => {
+                            this.subjectData = userByIdResponse;
+                            this.editForm.controls.displayName.setValue(this.subjectData.displayName);
+                            this.editForm.controls.code.setValue(this.subjectData.code);
+                            this.editForm.controls.active.setValue(this.subjectData.active);
+                            this.progressMode = 'determinate';
+                            this.progressValue = 100;
+                        }, error => {
+                            this.navigationService.changeUrl('subjects-details');
+                        });
                 }, error => {
-                    this.router.navigateByUrl('/');
-                });
-        }
-        this.routeSub = this.route.params.subscribe(params => {
-            this.subjectId = params.id;
-            this.http.get(this.configService.getSubjectByIdUrl(this.subjectId), this.httpOptions)
-                .subscribe(userByIdResponse => {
-                    this.subjectData = userByIdResponse;
-                    this.editForm.controls.displayName.setValue(this.subjectData.displayName);
-                    this.editForm.controls.code.setValue(this.subjectData.code);
-                    this.editForm.controls.active.setValue(this.subjectData.active);
-                    this.progressMode = 'determinate';
-                    this.progressValue = 100;
-                }, error => {
-                    this.toastr.error(error.error.message, 'Error', {
-                        positionClass: 'toast-top-center'
-                    });
+                    this.navigationService.changeUrl('subjects-details');
                 });
         });
     }

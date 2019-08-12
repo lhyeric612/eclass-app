@@ -1,12 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {CookieService} from 'ngx-cookie-service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Router} from '@angular/router';
-import {ConfigService} from '../config.service';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material';
-import {ToastrService} from 'ngx-toastr';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ConfigService } from '../config.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material';
 import { NavigationService } from '../navigation.service';
 
 @Component({
@@ -21,7 +19,6 @@ export class CoursesComponent implements OnInit {
 
     private httpOptions: any;
     private courseList: any;
-    private noRecord: boolean;
     private dataSource: any;
 
     displayedColumns: string[] = ['subject', 'level', 'courseName', 'createDate', 'updateDate', 'active'];
@@ -32,8 +29,6 @@ export class CoursesComponent implements OnInit {
     constructor(
         private cookieService: CookieService,
         private http: HttpClient,
-        private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private navigationService: NavigationService,
     ) {
@@ -46,8 +41,6 @@ export class CoursesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.noRecord = true;
-
         this.http.get(this.configService.getCoursesUrl(), this.httpOptions)
             .subscribe(response => {
                 this.courseList = response;
@@ -57,7 +50,7 @@ export class CoursesComponent implements OnInit {
                 this.progressMode = 'determinate';
                 this.progressValue = 100;
             }, error => {
-                this.router.navigateByUrl('/');
+                this.navigationService.changeUrl('courses');
             });
     }
 

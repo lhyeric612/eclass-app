@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {CookieService} from 'ngx-cookie-service';
-import {Router} from '@angular/router';
 import {ConfigService} from '../config.service';
 import {ToastrService} from 'ngx-toastr';
 import {Md5} from 'ts-md5/dist/md5';
@@ -35,7 +34,6 @@ export class UsersCreateComponent implements OnInit {
         private cookieService: CookieService,
         private http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private navigationService: NavigationService,
     ) {
@@ -54,7 +52,7 @@ export class UsersCreateComponent implements OnInit {
               this.progressMode = 'determinate';
               this.progressValue = 100;
           }, error => {
-            this.router.navigateByUrl('/');
+            this.navigationService.changeUrl('users-create');
           });
     }
 

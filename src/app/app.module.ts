@@ -55,6 +55,7 @@ import { StudentsDetailsComponent } from './students-details/students-details.co
 import { CoursesComponent } from './courses/courses.component';
 import { CoursesCreateComponent } from './courses-create/courses-create.component';
 import { CoursesDetailsComponent } from './courses-details/courses-details.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const appRoutes: Routes = [
     { path: '', component: LoginComponent },
@@ -83,6 +84,7 @@ const appRoutes: Routes = [
     { path: 'courses', component: CoursesComponent },
     { path: 'courses/create', component: CoursesCreateComponent },
     { path: 'courses/:id',      component: CoursesDetailsComponent },
+    { path: 'logout',      component: LogoutComponent },
     // {
     //     path: 'heroes',
     //     component: HeroListComponent,
@@ -125,7 +127,8 @@ const appRoutes: Routes = [
     StudentsDetailsComponent,
     CoursesComponent,
     CoursesCreateComponent,
-    CoursesDetailsComponent
+    CoursesDetailsComponent,
+    LogoutComponent
   ],
     imports: [
         BrowserModule,

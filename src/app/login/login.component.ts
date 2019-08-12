@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Router} from '@angular/router';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {CookieService} from 'ngx-cookie-service';
 import {ConfigService} from '../config.service';
 import {Md5} from 'ts-md5/dist/md5';
+import { NavigationService } from '../navigation.service';
 
 @Component({
     selector: 'app-login',
@@ -16,11 +16,10 @@ import {Md5} from 'ts-md5/dist/md5';
 export class LoginComponent implements OnInit {
 
     private httpOptions: any;
-    private hidePwd: boolean;
     private loginData: any;
 
     loginForm = new FormGroup({
-        email: new FormControl('', [Validators.required, Validators.email]),
+        email: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required])
     });
 
@@ -28,10 +27,10 @@ export class LoginComponent implements OnInit {
         private configService: ConfigService,
         private http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
-        private cookieService: CookieService
+        private cookieService: CookieService,
+        private navigationService: NavigationService
     ) {
-        if (this.cookieService.check('eclass-app')) {
+        if (this.cookieService.check('eclass-app') && this.cookieService.check('a') && this.cookieService.check('b')) {
             this.httpOptions = {
                 headers: new HttpHeaders({
                     'Content-Type':  'application/json',
@@ -48,26 +47,16 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.hidePwd = true;
-        if (this.cookieService.check('eclass-app')) {
-            this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
+        this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
                 .subscribe(userMenResponse => {
                     if (userMenResponse) {
-                        this.router.navigateByUrl('/dashboard');
+                        this.navigationService.changeUrl('dashboard');
                     }
                 }, error => {
-                    if (error.status === 401) {
                         this.cookieService.delete('eclass-app');
-                    } else {
-                        this.toastr.error(error.error.message, 'Error', {
-                            positionClass: 'toast-top-center'
-                        });
-                    }
+                        this.cookieService.delete('a');
+                        this.cookieService.delete('b');
                 });
-        } else {
-            this.cookieService.delete('a');
-            this.cookieService.delete('b');
-        }
     }
 
     getEmailErrorMessage() {
@@ -90,8 +79,8 @@ export class LoginComponent implements OnInit {
                     this.loginData = loginResponse;
                     this.cookieService.set('a', this.loginForm.value.email);
                     this.cookieService.set('b', this.loginForm.value.password);
-                    this.cookieService.set( 'eclass-app', this.loginData.token );
-                    this.router.navigateByUrl('/dashboard');
+                    this.cookieService.set('eclass-app', this.loginData.token);
+                    this.navigationService.changeUrl('dashboard');
                 }, error => {
                     if (error.status === 401 || error.status === 404 || error.status === 422) {
                         this.toastr.error('Email / Password is incorrect', 'Login Failed', {

@@ -62,34 +62,30 @@ export class TeachersDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.cookieService.check('eclass-app')) {
+        this.routeSub = this.route.params.subscribe(params => {
+            this.teacherId = params.id;
             this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
                 .subscribe(userMenResponse => {
                     this.userMeData = userMenResponse;
                     this.userId = this.userMeData.id;
                     this.progressMode = 'determinate';
                     this.progressValue = 100;
+                    this.http.get(this.configService.getTeacherByIdUrl(this.teacherId), this.httpOptions)
+                        .subscribe(userByIdResponse => {
+                            this.teacherData = userByIdResponse;
+                            this.editForm.controls.firstName.setValue(this.teacherData.firstName);
+                            this.editForm.controls.lastName.setValue(this.teacherData.lastName);
+                            this.editForm.controls.gender.setValue(this.teacherData.gender);
+                            this.editForm.controls.birthday.setValue(new Date(this.teacherData.birthday));
+                            this.editForm.controls.address.setValue(this.teacherData.address);
+                            this.editForm.controls.mobile.setValue(this.teacherData.mobile);
+                            this.editForm.controls.email.setValue(this.teacherData.email);
+                            this.editForm.controls.active.setValue(this.teacherData.active);
+                        }, error => {
+                            this.navigationService.changeUrl('teachers-details');
+                        });
                 }, error => {
-                    this.router.navigateByUrl('/');
-                });
-        }
-        this.routeSub = this.route.params.subscribe(params => {
-            this.teacherId = params.id;
-            this.http.get(this.configService.getTeacherByIdUrl(this.teacherId), this.httpOptions)
-                .subscribe(userByIdResponse => {
-                    this.teacherData = userByIdResponse;
-                    this.editForm.controls.firstName.setValue(this.teacherData.firstName);
-                    this.editForm.controls.lastName.setValue(this.teacherData.lastName);
-                    this.editForm.controls.gender.setValue(this.teacherData.gender);
-                    this.editForm.controls.birthday.setValue(new Date(this.teacherData.birthday));
-                    this.editForm.controls.address.setValue(this.teacherData.address);
-                    this.editForm.controls.mobile.setValue(this.teacherData.mobile);
-                    this.editForm.controls.email.setValue(this.teacherData.email);
-                    this.editForm.controls.active.setValue(this.teacherData.active);
-                }, error => {
-                    this.toastr.error(error.error.message, 'Error', {
-                        positionClass: 'toast-top-center'
-                    });
+                    this.navigationService.changeUrl('teachers-details');
                 });
         });
     }

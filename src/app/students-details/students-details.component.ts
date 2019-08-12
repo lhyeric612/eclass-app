@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Subscription} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
@@ -49,7 +49,6 @@ export class StudentsDetailsComponent implements OnInit {
         private cookieService: CookieService,
         private http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private datePipe: DatePipe,
         private navigationService: NavigationService,
@@ -63,45 +62,41 @@ export class StudentsDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.cookieService.check('eclass-app')) {
+        this.routeSub = this.route.params.subscribe(params => {
+            this.studentId = params.id;
             this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
                 .subscribe(userMenResponse => {
                     this.userMeData = userMenResponse;
                     this.userId = this.userMeData.id;
+                    this.http.get(this.configService.getParentsUrl(), this.httpOptions)
+                        .subscribe(response => {
+                            this.parents = response;
+                            if (this.parents.length > 0) {
+                                for (const parent of this.parents) {
+                                    parent.name = parent.firstName + ' ' + parent.lastName;
+                                }
+                            }
+                            this.http.get(this.configService.getStudentByIdUrl(this.studentId), this.httpOptions)
+                            .subscribe(userByIdResponse => {
+                                this.studentData = userByIdResponse;
+                                this.editForm.controls.firstName.setValue(this.studentData.firstName);
+                                this.editForm.controls.lastName.setValue(this.studentData.lastName);
+                                this.editForm.controls.nickName.setValue(this.studentData.nickName);
+                                this.editForm.controls.chineseName.setValue(this.studentData.chineseName);
+                                this.editForm.controls.gender.setValue(this.studentData.gender);
+                                this.editForm.controls.birthday.setValue(new Date(this.studentData.birthday));
+                                this.editForm.controls.parentId.setValue(this.studentData.parentId);
+                                this.editForm.controls.active.setValue(this.studentData.active);
+                                this.progressMode = 'determinate';
+                                this.progressValue = 100;
+                            }, error => {
+                                this.navigationService.changeUrl('students-details');
+                            });
+                        }, error => {
+                            this.navigationService.changeUrl('students-details');
+                        });
                 }, error => {
-                    this.router.navigateByUrl('/');
-                });
-        }
-        this.http.get(this.configService.getParentsUrl(), this.httpOptions)
-        .subscribe(response => {
-            this.parents = response;
-            if (this.parents.length > 0) {
-                for (const parent of this.parents) {
-                    parent.name = parent.firstName + ' ' + parent.lastName;
-                }
-            }
-        }, error => {
-            this.router.navigateByUrl('/');
-        })
-        this.routeSub = this.route.params.subscribe(params => {
-            this.studentId = params.id;
-            this.http.get(this.configService.getStudentByIdUrl(this.studentId), this.httpOptions)
-                .subscribe(userByIdResponse => {
-                    this.studentData = userByIdResponse;
-                    this.editForm.controls.firstName.setValue(this.studentData.firstName);
-                    this.editForm.controls.lastName.setValue(this.studentData.lastName);
-                    this.editForm.controls.nickName.setValue(this.studentData.nickName);
-                    this.editForm.controls.chineseName.setValue(this.studentData.chineseName);
-                    this.editForm.controls.gender.setValue(this.studentData.gender);
-                    this.editForm.controls.birthday.setValue(new Date(this.studentData.birthday));
-                    this.editForm.controls.parentId.setValue(this.studentData.parentId);
-                    this.editForm.controls.active.setValue(this.studentData.active);
-                    this.progressMode = 'determinate';
-                    this.progressValue = 100;
-                }, error => {
-                    this.toastr.error(error.error.message, 'Error', {
-                        positionClass: 'toast-top-center'
-                    });
+                    this.navigationService.changeUrl('students-details');
                 });
         });
     }
@@ -144,7 +139,7 @@ export class StudentsDetailsComponent implements OnInit {
             this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getStudentByIdUrl(this.studentId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.router.navigateByUrl('/students');
+                    this.navigationService.changeUrl('students');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -157,7 +152,7 @@ export class StudentsDetailsComponent implements OnInit {
         if (this.deleteForm.valid && this.deleteForm.controls.deleteStudentId.value === this.studentId) {
             this.http.delete(this.configService.getStudentByIdUrl(this.studentId), this.httpOptions)
                 .subscribe(response => {
-                    this.router.navigateByUrl('/students');
+                    this.navigationService.changeUrl('students');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

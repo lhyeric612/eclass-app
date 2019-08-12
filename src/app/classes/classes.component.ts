@@ -1,10 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {CookieService} from 'ngx-cookie-service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ToastrService} from 'ngx-toastr';
-import {Router} from '@angular/router';
-import {ConfigService} from '../config.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { CookieService } from 'ngx-cookie-service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ConfigService } from '../config.service';
 import { NavigationService } from '../navigation.service';
 
 @Component({
@@ -30,8 +28,6 @@ export class ClassesComponent implements OnInit {
     constructor(
         private cookieService: CookieService,
         private http: HttpClient,
-        private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private navigationService: NavigationService,
     ) {
@@ -55,7 +51,7 @@ export class ClassesComponent implements OnInit {
                 this.progressMode = 'determinate';
                 this.progressValue = 100;
             }, error => {
-                this.router.navigateByUrl('/');
+                this.navigationService.changeUrl('classes');
             });
     }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Subscription} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
@@ -50,7 +50,6 @@ export class ParentsDetailsComponent implements OnInit {
         private cookieService: CookieService,
         private http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private datePipe: DatePipe,
         private navigationService: NavigationService,
@@ -64,36 +63,32 @@ export class ParentsDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.cookieService.check('eclass-app')) {
+        this.routeSub = this.route.params.subscribe(params => {
+            this.parentId = params.id;
             this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
                 .subscribe(userMenResponse => {
                     this.userMeData = userMenResponse;
                     this.userId = this.userMeData.id;
-                }, error => {
-                    this.router.navigateByUrl('/');
-                });
-        }
-        this.routeSub = this.route.params.subscribe(params => {
-            this.parentId = params.id;
-            this.http.get(this.configService.getParentByIdUrl(this.parentId), this.httpOptions)
-                .subscribe(userByIdResponse => {
-                    this.parentData = userByIdResponse;
-                    this.editForm.controls.firstName.setValue(this.parentData.firstName);
-                    this.editForm.controls.lastName.setValue(this.parentData.lastName);
-                    this.editForm.controls.nickName.setValue(this.parentData.nickName);
-                    this.editForm.controls.chineseName.setValue(this.parentData.chineseName);
-                    this.editForm.controls.gender.setValue(this.parentData.gender);
-                    this.editForm.controls.birthday.setValue(new Date(this.parentData.birthday));
-                    this.editForm.controls.address.setValue(this.parentData.address);
-                    this.editForm.controls.mobile.setValue(this.parentData.mobile);
-                    this.editForm.controls.email.setValue(this.parentData.email);
-                    this.editForm.controls.active.setValue(this.parentData.active);
-                    this.progressMode = 'determinate';
-                    this.progressValue = 100;
-                }, error => {
-                    this.toastr.error(error.error.message, 'Error', {
-                        positionClass: 'toast-top-center'
+                    this.http.get(this.configService.getParentByIdUrl(this.parentId), this.httpOptions)
+                    .subscribe(userByIdResponse => {
+                        this.parentData = userByIdResponse;
+                        this.editForm.controls.firstName.setValue(this.parentData.firstName);
+                        this.editForm.controls.lastName.setValue(this.parentData.lastName);
+                        this.editForm.controls.nickName.setValue(this.parentData.nickName);
+                        this.editForm.controls.chineseName.setValue(this.parentData.chineseName);
+                        this.editForm.controls.gender.setValue(this.parentData.gender);
+                        this.editForm.controls.birthday.setValue(new Date(this.parentData.birthday));
+                        this.editForm.controls.address.setValue(this.parentData.address);
+                        this.editForm.controls.mobile.setValue(this.parentData.mobile);
+                        this.editForm.controls.email.setValue(this.parentData.email);
+                        this.editForm.controls.active.setValue(this.parentData.active);
+                        this.progressMode = 'determinate';
+                        this.progressValue = 100;
+                    }, error => {
+                        this.navigationService.changeUrl('parents-details');
                     });
+                }, error => {
+                    this.navigationService.changeUrl('parents-details');
                 });
         });
     }
@@ -136,8 +131,8 @@ export class ParentsDetailsComponent implements OnInit {
             this.editForm.value.updateDate = this.now;
             this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getParentByIdUrl(this.parentId), this.editForm.value, this.httpOptions)
-                .subscribe( response => {
-                    this.router.navigateByUrl('/parents');
+                .subscribe(response => {
+                    this.navigationService.changeUrl('parents');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -150,7 +145,7 @@ export class ParentsDetailsComponent implements OnInit {
         if (this.deleteForm.valid && this.deleteForm.controls.deleteParentId.value === this.parentId) {
             this.http.delete(this.configService.getParentByIdUrl(this.parentId), this.httpOptions)
                 .subscribe(response => {
-                    this.router.navigateByUrl('/parents');
+                    this.navigationService.changeUrl('parents');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

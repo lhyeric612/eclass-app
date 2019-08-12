@@ -1,10 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {CookieService} from 'ngx-cookie-service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ToastrService} from 'ngx-toastr';
-import {Router} from '@angular/router';
-import {ConfigService} from '../config.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { CookieService } from 'ngx-cookie-service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { ConfigService } from '../config.service';
 import { NavigationService } from '../navigation.service';
 
 @Component({
@@ -19,7 +18,6 @@ export class LevelsComponent implements OnInit {
 
     private httpOptions: any;
     private levelList: any;
-    private noRecord: boolean;
     private dataSource: any;
 
     displayedColumns: string[] = ['displayName', 'code', 'createDate', 'updateDate', 'active'];
@@ -31,7 +29,6 @@ export class LevelsComponent implements OnInit {
         private cookieService: CookieService,
         private http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private navigationService: NavigationService,
     ) {
@@ -44,8 +41,6 @@ export class LevelsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.noRecord = true;
-
         this.http.get(this.configService.getLevelsUrl(), this.httpOptions)
             .subscribe(response => {
                 this.levelList = response;

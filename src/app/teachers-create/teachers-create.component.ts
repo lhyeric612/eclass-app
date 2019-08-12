@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CookieService} from 'ngx-cookie-service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
-import {Router} from '@angular/router';
 import {ConfigService} from '../config.service';
 import {DatePipe} from '@angular/common';
 import { NavigationService } from '../navigation.service';
@@ -38,7 +37,6 @@ export class TeachersCreateComponent implements OnInit {
         private cookieService: CookieService,
         private http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private datePipe: DatePipe,
         private navigationService: NavigationService,
@@ -59,7 +57,7 @@ export class TeachersCreateComponent implements OnInit {
                 this.progressMode = 'determinate';
                 this.progressValue = 100;
             }, error => {
-                this.router.navigateByUrl('/');
+                this.navigationService.changeUrl('teachers-create');
             });
     }
 

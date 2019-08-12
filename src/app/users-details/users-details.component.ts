@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
@@ -41,7 +41,6 @@ export class UsersDetailsComponent implements OnInit {
         private cookieService: CookieService,
         private http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private navigationService: NavigationService,
     ) {
@@ -65,18 +64,18 @@ export class UsersDetailsComponent implements OnInit {
                     this.editForm.controls.lastName.setValue(this.userData.lastName);
                     this.editForm.controls.roleId.setValue(this.userData.roleId);
                     this.editForm.controls.active.setValue(this.userData.active);
-                    this.progressMode = 'determinate';
-                    this.progressValue = 100;
+                    this.http.get(this.configService.getRoleUrl(), this.httpOptions)
+                    .subscribe(roleListResponse => {
+                        this.roles = roleListResponse;
+                        this.progressMode = 'determinate';
+                        this.progressValue = 100;
+                    }, error => {
+                        this.navigationService.changeUrl('users-details');
+                    });
                 }, error => {
-                    this.router.navigateByUrl('/');
+                    this.navigationService.changeUrl('users-details');
                 });
         });
-        this.http.get(this.configService.getRoleUrl(), this.httpOptions)
-            .subscribe(roleListResponse => {
-                this.roles = roleListResponse;
-            }, error => {
-                this.router.navigateByUrl('/');
-            });
     }
 
     back() {

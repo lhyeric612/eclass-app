@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {Subscription} from 'rxjs';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CookieService} from 'ngx-cookie-service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ToastrService} from 'ngx-toastr';
-import {ConfigService} from '../config.service';
-import {DatePipe} from '@angular/common';
+import { Subscription } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { ConfigService } from '../config.service';
+import { DatePipe } from '@angular/common';
 import { NavigationService } from '../navigation.service';
 
 @Component({
@@ -43,7 +43,6 @@ export class ClassesDetailsComponent implements OnInit {
         private cookieService: CookieService,
         private http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private datePipe: DatePipe,
         private navigationService: NavigationService,
@@ -57,34 +56,29 @@ export class ClassesDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.cookieService.check('eclass-app')) {
-            this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
-                .subscribe(userMenResponse => {
-                    this.userMeData = userMenResponse;
-                    this.userId = this.userMeData.id;
-                }, error => {
-                    // if (error.status === 401) {
-                    //     this.cookieService.delete('eclass-app');
-                    //     this.router.navigateByUrl('/');
-                    // }
+        this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
+            .subscribe(userMenResponse => {
+                this.userMeData = userMenResponse;
+                this.userId = this.userMeData.id;
+                this.routeSub = this.route.params.subscribe(params => {
+                    this.classesId = params.id;
+                    this.http.get(this.configService.getClassesByIdUrl(this.classesId), this.httpOptions)
+                        .subscribe(userByIdResponse => {
+                            this.classesData = userByIdResponse;
+                            this.editForm.controls.displayName.setValue(this.classesData.displayName);
+                            this.editForm.controls.code.setValue(this.classesData.code);
+                            this.editForm.controls.active.setValue(this.classesData.active);
+                            this.progressMode = 'determinate';
+                            this.progressValue = 100;
+                        }, error => {
+                            this.toastr.error(error.error.message, 'Error', {
+                                positionClass: 'toast-top-center'
+                            });
+                        });
                 });
-        }
-        this.routeSub = this.route.params.subscribe(params => {
-            this.classesId = params.id;
-            this.http.get(this.configService.getClassesByIdUrl(this.classesId), this.httpOptions)
-                .subscribe(userByIdResponse => {
-                    this.classesData = userByIdResponse;
-                    this.editForm.controls.displayName.setValue(this.classesData.displayName);
-                    this.editForm.controls.code.setValue(this.classesData.code);
-                    this.editForm.controls.active.setValue(this.classesData.active);
-                    this.progressMode = 'determinate';
-                    this.progressValue = 100;
-                }, error => {
-                    this.toastr.error(error.error.message, 'Error', {
-                        positionClass: 'toast-top-center'
-                    });
-                });
-        });
+            }, error => {
+                this.navigationService.changeUrl('logout');
+            });
     }
 
     back() {

@@ -17,6 +17,8 @@ export class NavigationService {
     private loginRes: any;
     private currentUrl: string;
     private previousUrl: string;
+    private userMeData: any;
+    private userData: any;
 
     constructor(
         private configService: ConfigService,
@@ -55,7 +57,19 @@ export class NavigationService {
             };
             this.http.get(this.configService.getUserMeUrl(), this.httpOptions)
                 .subscribe(userMeResponse => {
-                    this.router.navigateByUrl('/' + url);
+                    this.userMeData = userMeResponse;
+                    this.http.get(this.configService.getUserByIdUrl(this.userMeData.id), this.httpOptions)
+                        .subscribe(userResponse => {
+                            this.userData = userResponse;
+                            if (this.userData.active) {
+                                this.router.navigateByUrl('/' + url);
+                            } else {
+                                this.toastr.error('Your account was disabled, please contact Administrator.', 'Error', {
+                                    positionClass: 'toast-top-center'
+                                });
+                                this.router.navigateByUrl('/');
+                            }
+                    })
                 }, error => {
                     console.log(error);
                     if (this.cookieService.check('a') && this.cookieService.check('b')) {

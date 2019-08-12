@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CookieService} from 'ngx-cookie-service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
-import {Router} from '@angular/router';
 import {ConfigService} from '../config.service';
 import {DatePipe} from '@angular/common';
 import { NavigationService } from '../navigation.service';
@@ -39,7 +38,6 @@ export class StudentsCreateComponent implements OnInit {
         private cookieService: CookieService,
         private http: HttpClient,
         private toastr: ToastrService,
-        private router: Router,
         private configService: ConfigService,
         private datePipe: DatePipe,
         private navigationService: NavigationService,
@@ -57,22 +55,22 @@ export class StudentsCreateComponent implements OnInit {
             .subscribe(userMenResponse => {
                 this.userMeData = userMenResponse;
                 this.userId = this.userMeData.id;
-            }, error => {
-                this.router.navigateByUrl('/');
-            });
-        this.http.get(this.configService.getParentsUrl(), this.httpOptions)
-            .subscribe(response => {
-                this.parents = response;
-                if (this.parents.length > 0) {
-                    for (const parent of this.parents) {
-                        parent.name = parent.firstName + ' ' + parent.lastName;
+                this.http.get(this.configService.getParentsUrl(), this.httpOptions)
+                .subscribe(response => {
+                    this.parents = response;
+                    if (this.parents.length > 0) {
+                        for (const parent of this.parents) {
+                            parent.name = parent.firstName + ' ' + parent.lastName;
+                        }
+                        this.progressMode = 'determinate';
+                        this.progressValue = 100;
                     }
-                    this.progressMode = 'determinate';
-                    this.progressValue = 100;
-                }
+                }, error => {
+                        this.navigationService.changeUrl('students-create');
+                })
             }, error => {
-                this.router.navigateByUrl('/');
-            })
+                this.navigationService.changeUrl('students-create');
+            });
     }
 
     back() {
