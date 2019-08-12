@@ -36,7 +36,7 @@ export class StudentsDetailsComponent implements OnInit {
         chineseName: new FormControl(''),
         gender: new FormControl(''),
         birthday: new FormControl(''),
-        parentId: new FormControl(''),
+        parentsId: new FormControl(''),
         active: new FormControl('')
     });
 
@@ -85,18 +85,18 @@ export class StudentsDetailsComponent implements OnInit {
                                 this.editForm.controls.chineseName.setValue(this.studentData.chineseName);
                                 this.editForm.controls.gender.setValue(this.studentData.gender);
                                 this.editForm.controls.birthday.setValue(new Date(this.studentData.birthday));
-                                this.editForm.controls.parentId.setValue(this.studentData.parentId);
+                                this.editForm.controls.parentsId.setValue(this.studentData.parentsId);
                                 this.editForm.controls.active.setValue(this.studentData.active);
                                 this.progressMode = 'determinate';
                                 this.progressValue = 100;
                             }, error => {
-                                this.navigationService.changeUrl('students-details');
+                                this.navigationService.changeUrl('students/' + this.studentId);
                             });
                         }, error => {
-                            this.navigationService.changeUrl('students-details');
+                            this.navigationService.changeUrl('students/' + this.studentId);
                         });
                 }, error => {
-                    this.navigationService.changeUrl('students-details');
+                    this.navigationService.changeUrl('students/' + this.studentId);
                 });
         });
     }
@@ -121,7 +121,7 @@ export class StudentsDetailsComponent implements OnInit {
     }
 
     getParentErrorMessage() {
-        return this.editForm.controls.parentId.hasError('required') ? 'Please select parent' :
+        return this.editForm.controls.parentsId.hasError('required') ? 'Please select parent' :
                 '';
     }
 

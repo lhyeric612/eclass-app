@@ -102,4 +102,12 @@ export class ConfigService {
         return this.basicUrl + 'courses/' + id;
     }
 
+    getCourseSubjectByIdUrl(id: string) {
+        return this.basicUrl + 'courses/' + id + '/subjects';
+    }
+
+    getCourseLevelByIdUrl(id: string) {
+        return this.basicUrl + 'courses/' + id + '/levels';
+    }
+
 }

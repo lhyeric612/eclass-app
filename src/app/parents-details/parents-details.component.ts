@@ -77,7 +77,9 @@ export class ParentsDetailsComponent implements OnInit {
                         this.editForm.controls.nickName.setValue(this.parentData.nickName);
                         this.editForm.controls.chineseName.setValue(this.parentData.chineseName);
                         this.editForm.controls.gender.setValue(this.parentData.gender);
-                        this.editForm.controls.birthday.setValue(new Date(this.parentData.birthday));
+                        if (this.parentData.birthday != "") {
+                            this.editForm.controls.birthday.setValue(new Date(this.parentData.birthday));    
+                        }
                         this.editForm.controls.address.setValue(this.parentData.address);
                         this.editForm.controls.mobile.setValue(this.parentData.mobile);
                         this.editForm.controls.email.setValue(this.parentData.email);
@@ -85,10 +87,10 @@ export class ParentsDetailsComponent implements OnInit {
                         this.progressMode = 'determinate';
                         this.progressValue = 100;
                     }, error => {
-                        this.navigationService.changeUrl('parents-details');
+                        this.navigationService.changeUrl('parents/' + this.parentId);
                     });
                 }, error => {
-                    this.navigationService.changeUrl('parents-details');
+                    this.navigationService.changeUrl('parents/' + this.parentId);
                 });
         });
     }
@@ -127,7 +129,9 @@ export class ParentsDetailsComponent implements OnInit {
         this.now = new Date();
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.editForm.valid) {
-            this.editForm.value.birthday = this.datePipe.transform(this.editForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');
+            if (this.editForm.value.birthday != "") {
+                this.editForm.value.birthday = this.datePipe.transform(this.editForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');    
+            }
             this.editForm.value.updateDate = this.now;
             this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getParentByIdUrl(this.parentId), this.editForm.value, this.httpOptions)

@@ -71,10 +71,10 @@ export class SubjectsDetailsComponent implements OnInit {
                             this.progressMode = 'determinate';
                             this.progressValue = 100;
                         }, error => {
-                            this.navigationService.changeUrl('subjects-details');
+                            this.navigationService.changeUrl('subjects/' + this.subjectId);
                         });
                 }, error => {
-                    this.navigationService.changeUrl('subjects-details');
+                    this.navigationService.changeUrl('subjects/' + this.subjectId);
                 });
         });
     }
@@ -106,7 +106,7 @@ export class SubjectsDetailsComponent implements OnInit {
             this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getSubjectByIdUrl(this.subjectId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.navigationService.changeUrl('/subjects');
+                    this.navigationService.changeUrl('subjects');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -119,7 +119,7 @@ export class SubjectsDetailsComponent implements OnInit {
         if (this.deleteForm.valid && this.deleteForm.controls.deleteSubjectId.value === this.subjectId) {
             this.http.delete(this.configService.getSubjectByIdUrl(this.subjectId), this.httpOptions)
                 .subscribe(response => {
-                    this.navigationService.changeUrl('/subjects');
+                    this.navigationService.changeUrl('subjects');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

@@ -59,7 +59,7 @@ export class ParentsCreateComponent implements OnInit {
                 this.progressMode = 'determinate';
                 this.progressValue = 100;
             }, error => {
-                this.navigationService.changeUrl('parents-create');
+                this.navigationService.changeUrl('parents/create');
             });
     }
 
@@ -93,13 +93,16 @@ export class ParentsCreateComponent implements OnInit {
         this.now = new Date();
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.createForm.valid) {
-            this.createForm.value.birthday = this.datePipe.transform(this.createForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');
+            console.log(this.createForm.value.birthday);
+            if (this.createForm.value.birthday != "") {
+                this.createForm.value.birthday = this.datePipe.transform(this.createForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');
+            }
             this.createForm.value.createDate = this.now;
             this.createForm.value.createBy = this.userId;
             this.createForm.value.active = true;
             this.http.post(this.configService.getParentsUrl(), this.createForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.navigationService.changeUrl('/parents');
+                    this.navigationService.changeUrl('parents');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

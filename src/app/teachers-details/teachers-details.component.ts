@@ -82,10 +82,10 @@ export class TeachersDetailsComponent implements OnInit {
                             this.editForm.controls.email.setValue(this.teacherData.email);
                             this.editForm.controls.active.setValue(this.teacherData.active);
                         }, error => {
-                            this.navigationService.changeUrl('teachers-details');
+                            this.navigationService.changeUrl('teachers/' + this.teacherId);
                         });
                 }, error => {
-                    this.navigationService.changeUrl('teachers-details');
+                    this.navigationService.changeUrl('teachers/' + this.teacherId);
                 });
         });
     }
@@ -129,7 +129,7 @@ export class TeachersDetailsComponent implements OnInit {
             this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getTeacherByIdUrl(this.teacherId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.navigationService.changeUrl('/teachers');
+                    this.navigationService.changeUrl('teachers');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -142,7 +142,7 @@ export class TeachersDetailsComponent implements OnInit {
         if (this.deleteForm.valid && this.deleteForm.controls.deleteTeacherId.value === this.teacherId) {
             this.http.delete(this.configService.getTeacherByIdUrl(this.teacherId), this.httpOptions)
                 .subscribe(response => {
-                    this.navigationService.changeUrl('/teachers');
+                    this.navigationService.changeUrl('teachers');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

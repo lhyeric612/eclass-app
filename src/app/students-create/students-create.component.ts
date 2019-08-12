@@ -30,8 +30,8 @@ export class StudentsCreateComponent implements OnInit {
         nickName: new FormControl(''),
         chineseName: new FormControl(''),
         gender: new FormControl(''),
-        birthday: new FormControl(''),
-        parentId: new FormControl('', [Validators.required])
+        birthday: new FormControl('', [Validators.required]),
+        parentsId: new FormControl('', [Validators.required])
     });
 
     constructor(
@@ -66,10 +66,10 @@ export class StudentsCreateComponent implements OnInit {
                         this.progressValue = 100;
                     }
                 }, error => {
-                        this.navigationService.changeUrl('students-create');
+                        this.navigationService.changeUrl('students/create');
                 })
             }, error => {
-                this.navigationService.changeUrl('students-create');
+                this.navigationService.changeUrl('students/create');
             });
     }
 
@@ -88,7 +88,7 @@ export class StudentsCreateComponent implements OnInit {
     }
 
     getParentErrorMessage() {
-        return this.createForm.controls.parentId.hasError('required') ? 'Please select parent' :
+        return this.createForm.controls.parentsId.hasError('required') ? 'Please select parent' :
             '';
     }
 
@@ -102,7 +102,7 @@ export class StudentsCreateComponent implements OnInit {
             this.createForm.value.active = true;
             this.http.post(this.configService.getStudentsUrl(), this.createForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.navigationService.changeUrl('/students');
+                    this.navigationService.changeUrl('students');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

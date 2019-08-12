@@ -60,11 +60,11 @@ export class ClassesComponent implements OnInit {
     }
 
     create() {
-        this.navigationService.changeUrl('/classes/create');
+        this.navigationService.changeUrl('classes/create');
     }
 
     view(row) {
-        this.navigationService.changeUrl('/classes/' + row.id);
+        this.navigationService.changeUrl('classes/' + row.id);
     }
 
 }

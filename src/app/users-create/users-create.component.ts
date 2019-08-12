@@ -52,7 +52,7 @@ export class UsersCreateComponent implements OnInit {
               this.progressMode = 'determinate';
               this.progressValue = 100;
           }, error => {
-            this.navigationService.changeUrl('users-create');
+            this.navigationService.changeUrl('users/create');
           });
     }
 
@@ -98,7 +98,7 @@ export class UsersCreateComponent implements OnInit {
                 this.createForm.value.password = Md5.hashStr(this.createForm.value.password);
                 this.http.post(this.configService.getUserUrl(), this.createForm.value, this.httpOptions)
                     .subscribe( response => {
-                        this.navigationService.changeUrl('/users');
+                        this.navigationService.changeUrl('users');
                     }, error => {
                         this.toastr.error(error.error.message, 'Error', {
                             positionClass: 'toast-top-center'

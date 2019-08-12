@@ -66,11 +66,11 @@ export class TeachersComponent implements OnInit {
     }
 
     create() {
-        this.navigationService.changeUrl('/teachers/create');
+        this.navigationService.changeUrl('teachers/create');
     }
 
     view(row) {
-        this.navigationService.changeUrl('/teachers/' + row.id);
+        this.navigationService.changeUrl('teachers/' + row.id);
     }
 }
 

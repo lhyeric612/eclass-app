@@ -52,7 +52,7 @@ export class SubjectsCreateComponent implements OnInit {
                 this.progressMode = 'determinate';
                 this.progressValue = 100;
             }, error => {
-                this.navigationService.changeUrl('subjects-create');
+                this.navigationService.changeUrl('subjects/create');
             });
     }
 
@@ -79,7 +79,7 @@ export class SubjectsCreateComponent implements OnInit {
             this.createForm.value.active = true;
             this.http.post(this.configService.getSubjectsUrl(), this.createForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.navigationService.changeUrl('/subjects');
+                    this.navigationService.changeUrl('subjects');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

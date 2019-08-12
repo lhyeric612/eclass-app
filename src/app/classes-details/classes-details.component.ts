@@ -71,13 +71,11 @@ export class ClassesDetailsComponent implements OnInit {
                             this.progressMode = 'determinate';
                             this.progressValue = 100;
                         }, error => {
-                            this.toastr.error(error.error.message, 'Error', {
-                                positionClass: 'toast-top-center'
-                            });
+                            this.navigationService.changeUrl('classes/' + this.classesId);
                         });
                 });
             }, error => {
-                this.navigationService.changeUrl('logout');
+                this.navigationService.changeUrl('classes/' + this.classesId);
             });
     }
 
@@ -108,7 +106,7 @@ export class ClassesDetailsComponent implements OnInit {
             this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getClassesByIdUrl(this.classesId), this.editForm.value, this.httpOptions)
                 .subscribe(response => {
-                    this.navigationService.changeUrl('/classes');
+                    this.navigationService.changeUrl('classes');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -121,7 +119,7 @@ export class ClassesDetailsComponent implements OnInit {
         if (this.deleteForm.valid && this.deleteForm.controls.deleteClassesId.value === this.classesId) {
             this.http.delete(this.configService.getClassesByIdUrl(this.classesId), this.httpOptions)
                 .subscribe(response => {
-                    this.navigationService.changeUrl('/classes');
+                    this.navigationService.changeUrl('classes');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

@@ -20,6 +20,8 @@ export class CoursesComponent implements OnInit {
     private httpOptions: any;
     private courseList: any;
     private dataSource: any;
+    private subjectData: any;
+    private levelData: any;
 
     displayedColumns: string[] = ['subject', 'level', 'courseName', 'createDate', 'updateDate', 'active'];
 
@@ -47,6 +49,24 @@ export class CoursesComponent implements OnInit {
                 this.dataSource = new MatTableDataSource<PeriodicElement>(this.courseList);
                 this.dataSource.sort = this.sort;
                 this.dataSource.paginator = this.paginator;
+                if (this.courseList.length > 0) {
+                    for (const courseData of this.courseList) {
+                        this.http.get(this.configService.getCourseSubjectByIdUrl(courseData.id), this.httpOptions)
+                            .subscribe(subjectResponse => {
+                                this.subjectData = subjectResponse;
+                                courseData.subject = this.subjectData.displayName;
+                            }, error2 => {
+                                this.navigationService.changeUrl('courses');
+                            });
+                        this.http.get(this.configService.getCourseLevelByIdUrl(courseData.id), this.httpOptions)
+                            .subscribe(levelResponse => {
+                                this.levelData = levelResponse;
+                                courseData.level = this.levelData.displayName;
+                            }, error2 => {
+                                this.navigationService.changeUrl('courses');
+                            });
+                    }
+                }
                 this.progressMode = 'determinate';
                 this.progressValue = 100;
             }, error => {
@@ -59,11 +79,11 @@ export class CoursesComponent implements OnInit {
     }
 
     create() {
-        this.navigationService.changeUrl('/courses/create');
+        this.navigationService.changeUrl('courses/create');
     }
 
     view(row) {
-        this.navigationService.changeUrl('/courses/' + row.id);
+        this.navigationService.changeUrl('courses/' + row.id);
     }
 
 }

@@ -71,10 +71,10 @@ export class LevelsDetailsComponent implements OnInit {
                         this.progressMode = 'determinate';
                         this.progressValue = 100;
                     }, error => {
-                        this.navigationService.changeUrl('levels-details');
+                        this.navigationService.changeUrl('levels/' + this.levelId);
                     });
             }, error => {
-                this.navigationService.changeUrl('levels-details');
+                this.navigationService.changeUrl('levels/' + this.levelId);
             });
         });
     }
@@ -106,7 +106,7 @@ export class LevelsDetailsComponent implements OnInit {
             this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getLevelByIdUrl(this.levelId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.navigationService.changeUrl('/levels');
+                    this.navigationService.changeUrl('levels');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -119,7 +119,7 @@ export class LevelsDetailsComponent implements OnInit {
         if (this.deleteForm.valid && this.deleteForm.controls.deleteLevelId.value === this.levelId) {
             this.http.delete(this.configService.getLevelByIdUrl(this.levelId), this.httpOptions)
                 .subscribe(response => {
-                    this.navigationService.changeUrl('/levels');
+                    this.navigationService.changeUrl('levels');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

@@ -74,7 +74,7 @@
                                             <div class="form-group" style="height: 24px">
                                                 <div class="col-sm-8 col-sm-offset-2">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput [matDatepicker]="picker" placeholder="Choose a birthday date" formControlName="birthday">
+                                                        <input matInput [matDatepicker]="picker" placeholder="Choose a birthday date" formControlName="birthday" required>
                                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                         <mat-datepicker #picker></mat-datepicker>
                                                     </mat-form-field>
@@ -84,7 +84,7 @@
                                                 <div class="col-sm-8 col-sm-offset-2">
                                                     <mat-form-field class="full-width">
                                                         <mat-label>Parent</mat-label>
-                                                        <mat-select formControlName="parentId" required>
+                                                        <mat-select formControlName="parentsId" required>
                                                             <mat-option *ngFor="let parent of parents" [value]="parent.id">
                                                                 {{parent.name}}
                                                             </mat-option>

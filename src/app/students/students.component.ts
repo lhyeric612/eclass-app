@@ -22,8 +22,8 @@ export class StudentsComponent implements OnInit {
     displayedColumns: string[] = [
         'firstName',
         'lastName',
-        'nickName',
-        'chineseName',
+        // 'nickName',
+        // 'chineseName',
         'gender',
         'age',
         'createDate',
@@ -73,19 +73,19 @@ export class StudentsComponent implements OnInit {
     }
 
     create() {
-        this.navigationService.changeUrl('/students/create');
+        this.navigationService.changeUrl('students/create');
     }
 
     view(row) {
-        this.navigationService.changeUrl('/students/' + row.id);
+        this.navigationService.changeUrl('students/' + row.id);
     }
 }
 
 export interface PeriodicElement {
     firstName: string;
     lastName: string;
-    nickName: string;
-    chineseName: string;
+    // nickName: string;
+    // chineseName: string;
     gender: string;
     age: string;
     createDate: string;

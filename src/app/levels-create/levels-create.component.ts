@@ -52,7 +52,7 @@ export class LevelsCreateComponent implements OnInit {
                 this.progressMode = 'determinate';
                 this.progressValue = 100;
             }, error => {
-                this.navigationService.changeUrl('levels-create');
+                this.navigationService.changeUrl('levels/create');
             });
     }
 
@@ -79,7 +79,7 @@ export class LevelsCreateComponent implements OnInit {
             this.createForm.value.active = true;
             this.http.post(this.configService.getLevelsUrl(), this.createForm.value, this.httpOptions)
                 .subscribe(response => {
-                    this.navigationService.changeUrl('/levels');
+                    this.navigationService.changeUrl('levels');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

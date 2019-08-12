@@ -24,11 +24,11 @@ export class ParentsComponent implements OnInit {
     displayedColumns: string[] = [
         'firstName',
         'lastName',
-        'nickName',
-        'chineseName',
+        // 'nickName',
+        // 'chineseName',
         'studentsCount',
         'gender',
-        'age',
+        // 'age',
         'mobile',
         'email',
         'createDate',
@@ -88,22 +88,22 @@ export class ParentsComponent implements OnInit {
     }
 
     create() {
-        this.navigationService.changeUrl('/parents/create');
+        this.navigationService.changeUrl('parents/create');
     }
 
     view(row) {
-        this.navigationService.changeUrl('/parents/' + row.id);
+        this.navigationService.changeUrl('parents/' + row.id);
     }
 }
 
 export interface PeriodicElement {
     firstName: string;
     lastName: string;
-    nickName: string;
-    chineseName: string;
+    // nickName: string;
+    // chineseName: string;
     studentsCount: number;
     gender: string;
-    age: string;
+    // age: string;
     mobile: string;
     email: string;
     createDate: string;

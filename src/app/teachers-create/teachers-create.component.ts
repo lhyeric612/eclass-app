@@ -57,7 +57,7 @@ export class TeachersCreateComponent implements OnInit {
                 this.progressMode = 'determinate';
                 this.progressValue = 100;
             }, error => {
-                this.navigationService.changeUrl('teachers-create');
+                this.navigationService.changeUrl('teachers/create');
             });
     }
 
@@ -96,7 +96,7 @@ export class TeachersCreateComponent implements OnInit {
             this.createForm.value.active = true;
             this.http.post(this.configService.getTeachersUrl(), this.createForm.value, this.httpOptions)
                 .subscribe( response => {
-                    this.navigationService.changeUrl('/teachers');
+                    this.navigationService.changeUrl('teachers');
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

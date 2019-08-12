@@ -75,11 +75,11 @@ export class UsersComponent implements OnInit {
     }
 
     create() {
-        this.navigationService.changeUrl('/users/create');
+        this.navigationService.changeUrl('users/create');
     }
 
     view(row) {
-        this.navigationService.changeUrl('/users/' + row.id);
+        this.navigationService.changeUrl('users/' + row.id);
     }
 }
 

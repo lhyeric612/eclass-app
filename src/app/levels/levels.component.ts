@@ -61,11 +61,11 @@ export class LevelsComponent implements OnInit {
     }
 
     create() {
-        this.navigationService.changeUrl('/levels/create');
+        this.navigationService.changeUrl('levels/create');
     }
 
     view(row) {
-        this.navigationService.changeUrl('/levels/' + row.id);
+        this.navigationService.changeUrl('levels/' + row.id);
     }
 
 }

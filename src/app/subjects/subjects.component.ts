@@ -62,11 +62,11 @@ export class SubjectsComponent implements OnInit {
     }
 
     create() {
-        this.navigationService.changeUrl('/subjects/create');
+        this.navigationService.changeUrl('subjects/create');
     }
 
     view(row) {
-        this.navigationService.changeUrl('/subjects/' + row.id);
+        this.navigationService.changeUrl('subjects/' + row.id);
     }
 
 }
