@@ -15,11 +15,14 @@ import { NavigationService } from '../navigation.service';
 })
 export class UsersCreateComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     private httpOptions: any;
     private roles: any;
 
     createForm = new FormGroup({
-        email: new FormControl('', [Validators.required, Validators.email]),
+        email: new FormControl('', [Validators.required]),
         firstName: new FormControl('', [Validators.required]),
         lastName: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required]),
@@ -48,6 +51,8 @@ export class UsersCreateComponent implements OnInit {
         this.http.get(this.configService.getRoleUrl(), this.httpOptions)
           .subscribe(roleListResponse => {
               this.roles = roleListResponse;
+              this.progressMode = 'determinate';
+              this.progressValue = 100;
           }, error => {
             this.router.navigateByUrl('/');
           });

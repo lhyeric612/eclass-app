@@ -22,11 +22,11 @@ export class ConfigService {
         return this.basicUrl + 'users/me';
     }
 
-    getUserRoleUrl(id) {
+    getUserRoleUrl(id: string) {
         return this.basicUrl + 'users/' + id + '/role';
     }
 
-    getUserByIdUrl(id) {
+    getUserByIdUrl(id: string) {
         return this.basicUrl + 'users/' + id;
     }
 
@@ -40,7 +40,7 @@ export class ConfigService {
         return this.basicUrl + 'subjects';
     }
 
-    getSubjectByIdUrl(id) {
+    getSubjectByIdUrl(id: string) {
         return this.basicUrl + 'subjects/' + id;
     }
 
@@ -49,7 +49,7 @@ export class ConfigService {
         return this.basicUrl + 'levels';
     }
 
-    getLevelByIdUrl(id) {
+    getLevelByIdUrl(id: string) {
         return this.basicUrl + 'levels/' + id;
     }
 
@@ -58,7 +58,7 @@ export class ConfigService {
         return this.basicUrl + 'classes';
     }
 
-    getClassesByIdUrl(id) {
+    getClassesByIdUrl(id: string) {
         return this.basicUrl + 'classes/' + id;
     }
 
@@ -67,7 +67,7 @@ export class ConfigService {
         return this.basicUrl + 'teachers';
     }
 
-    getTeacherByIdUrl(id) {
+    getTeacherByIdUrl(id: string) {
         return this.basicUrl + 'teachers/' + id;
     }
 
@@ -76,12 +76,30 @@ export class ConfigService {
         return this.basicUrl + 'parents';
     }
 
-    getParentByIdUrl(id) {
-        return this.basicUrl + 'teachers/' + id;
+    getParentByIdUrl(id: string) {
+        return this.basicUrl + 'parents/' + id;
     }
 
-    getParentsStudentsUrl(id) {
+    getParentsStudentsUrl(id: string) {
         return this.basicUrl + 'parents/' + id + '/students';
+    }
+
+    // Students API
+    getStudentsUrl() {
+        return this.basicUrl + 'students';
+    }
+
+    getStudentByIdUrl(id: string) {
+        return this.basicUrl + 'students/' + id;
+    }
+
+    // Courses API
+    getCoursesUrl() {
+        return this.basicUrl + 'courses';
+    }
+
+    getCourseByIdUrl(id: string) {
+        return this.basicUrl + 'courses/' + id;
     }
 
 }

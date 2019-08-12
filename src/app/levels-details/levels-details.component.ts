@@ -17,6 +17,9 @@ import { NavigationService } from '../navigation.service';
 })
 export class LevelsDetailsComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     private routeSub: Subscription;
     private httpOptions: any;
     private levelData: any;
@@ -26,7 +29,7 @@ export class LevelsDetailsComponent implements OnInit {
     private userId: string;
 
     editForm = new FormGroup({
-        display_name: new FormControl('', [Validators.required]),
+        displayName: new FormControl('', [Validators.required]),
         code: new FormControl('', [Validators.required]),
         active: new FormControl('')
     });
@@ -59,6 +62,8 @@ export class LevelsDetailsComponent implements OnInit {
                 .subscribe(userMenResponse => {
                     this.userMeData = userMenResponse;
                     this.userId = this.userMeData.id;
+                    this.progressMode = 'determinate';
+                    this.progressValue = 100;
                 }, error => {
                     this.router.navigateByUrl('/');
                 });
@@ -68,7 +73,7 @@ export class LevelsDetailsComponent implements OnInit {
             this.http.get(this.configService.getLevelByIdUrl(this.levelId), this.httpOptions)
                 .subscribe(userByIdResponse => {
                     this.levelData = userByIdResponse;
-                    this.editForm.controls.display_name.setValue(this.levelData.display_name);
+                    this.editForm.controls.displayName.setValue(this.levelData.displayName);
                     this.editForm.controls.code.setValue(this.levelData.code);
                     this.editForm.controls.active.setValue(this.levelData.active);
                 }, error => {
@@ -84,7 +89,7 @@ export class LevelsDetailsComponent implements OnInit {
     }
 
     getDisplayNameErrorMessage() {
-        return this.editForm.controls.display_name.hasError('required') ? 'Please enter display name' :
+        return this.editForm.controls.displayName.hasError('required') ? 'Please enter display name' :
             '';
     }
 
@@ -102,8 +107,8 @@ export class LevelsDetailsComponent implements OnInit {
         this.now = new Date();
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.editForm.valid) {
-            this.editForm.value.update_date = this.now;
-            this.editForm.value.update_by = this.userId;
+            this.editForm.value.updateDate = this.now;
+            this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getLevelByIdUrl(this.levelId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
                     this.navigationService.changeUrl('/levels');

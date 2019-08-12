@@ -14,6 +14,9 @@ import { NavigationService } from '../navigation.service';
 })
 export class ParentsComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     private httpOptions: any;
     private parnetsList: any;
     private studentsList: any;
@@ -30,8 +33,8 @@ export class ParentsComponent implements OnInit {
         'age',
         'mobile',
         'email',
-        'create_date',
-        'update_date',
+        'createDate',
+        'updateDate',
         'active'
     ];
 
@@ -77,6 +80,8 @@ export class ParentsComponent implements OnInit {
                 this.dataSource = new MatTableDataSource<PeriodicElement>(this.parnetsList);
                 this.dataSource.sort = this.sort;
                 this.dataSource.paginator = this.paginator;
+                this.progressMode = 'determinate';
+                this.progressValue = 100;
             }, error => {
                 this.router.navigateByUrl('/');
             });
@@ -105,7 +110,7 @@ export interface PeriodicElement {
     age: string;
     mobile: string;
     email: string;
-    create_date: string;
-    update_date: string;
+    createDate: string;
+    updateDate: string;
     active: boolean;
 }

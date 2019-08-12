@@ -17,6 +17,9 @@ import { NavigationService } from '../navigation.service';
 })
 export class TeachersDetailsComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     private routeSub: Subscription;
     private httpOptions: any;
     private teacherData: any;
@@ -64,6 +67,8 @@ export class TeachersDetailsComponent implements OnInit {
                 .subscribe(userMenResponse => {
                     this.userMeData = userMenResponse;
                     this.userId = this.userMeData.id;
+                    this.progressMode = 'determinate';
+                    this.progressValue = 100;
                 }, error => {
                     this.router.navigateByUrl('/');
                 });
@@ -124,8 +129,8 @@ export class TeachersDetailsComponent implements OnInit {
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.editForm.valid) {
             this.editForm.value.birthday = this.datePipe.transform(this.editForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');
-            this.editForm.value.update_date = this.now;
-            this.editForm.value.update_by = this.userId;
+            this.editForm.value.updateDate = this.now;
+            this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getTeacherByIdUrl(this.teacherId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
                     this.navigationService.changeUrl('/teachers');

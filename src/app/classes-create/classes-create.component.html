@@ -1,5 +1,6 @@
 <div class="skin-1">
     <div id="wrapper">
+        <mat-progress-bar [mode]="progressMode" [value]="progressValue"></mat-progress-bar>
         <app-nav></app-nav>
         <div id="page-wrapper" class="gray-bg">
             <app-top-nav></app-top-nav>
@@ -35,7 +36,7 @@
                                         <div class="form-group">
                                             <div class="col-sm-8 col-sm-offset-2">
                                                 <mat-form-field class="full-width">
-                                                    <input matInput type="text" placeholder="Display Name" class="form-control" required formControlName="display_name">
+                                                    <input matInput type="text" placeholder="Display Name" class="form-control" required formControlName="displayName">
                                                     <mat-error *ngIf="createForm.invalid">{{getDisplayNameErrorMessage()}}</mat-error>
                                                 </mat-form-field>
                                             </div>

@@ -1,5 +1,6 @@
 <div class="skin-1">
     <div id="wrapper">
+        <mat-progress-bar [mode]="progressMode" [value]="progressValue"></mat-progress-bar>
         <app-nav></app-nav>
         <div id="page-wrapper" class="gray-bg">
             <app-top-nav></app-top-nav>
@@ -18,7 +19,7 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="title-action">
-                            <button type="submit" class="mat-primary" mat-flat-button (click)="create()">Create</button>
+                            <button type="submit" class="create-green" mat-flat-button (click)="create()">Create</button>
                         </div>
                     </div>
                 </div>

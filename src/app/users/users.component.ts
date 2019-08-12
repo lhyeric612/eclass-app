@@ -16,6 +16,9 @@ import { NavigationService } from '../navigation.service';
 })
 export class UsersComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     private httpOptions: any;
     private userList: any;
     private noRecord: boolean;
@@ -65,6 +68,8 @@ export class UsersComponent implements OnInit {
                             });
                     }
                 }
+                this.progressMode = 'determinate';
+                this.progressValue = 100;
             }, error => {
                 this.router.navigateByUrl('/');
             });

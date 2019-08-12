@@ -16,6 +16,9 @@ import { NavigationService } from '../navigation.service';
 })
 export class ParentsCreateComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     private httpOptions: any;
     private userMeData: any;
     private userId: string;
@@ -29,9 +32,8 @@ export class ParentsCreateComponent implements OnInit {
         gender: new FormControl(''),
         birthday: new FormControl(''),
         address: new FormControl(''),
-        mobile: new FormControl('', [Validators.required]),
-        email: new FormControl('', [Validators.required, Validators.email]),
-        studentCount: new FormControl('', [Validators.required]),
+        mobile: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+        email: new FormControl('', [Validators.required, Validators.email])
     });
 
     constructor(
@@ -56,6 +58,8 @@ export class ParentsCreateComponent implements OnInit {
             .subscribe(userMenResponse => {
                 this.userMeData = userMenResponse;
                 this.userId = this.userMeData.id;
+                this.progressMode = 'determinate';
+                this.progressValue = 100;
             }, error => {
                 this.router.navigateByUrl('/');
             });
@@ -77,6 +81,7 @@ export class ParentsCreateComponent implements OnInit {
 
     getMobileErrorMessage() {
         return this.createForm.controls.mobile.hasError('required') ? 'Please enter mobile' :
+            this.createForm.controls.mobile.hasError('maxlength') || this.createForm.controls.mobile.hasError('minlength') ? 'mobile number must be 8 digits' :
             '';
     }
 
@@ -86,18 +91,13 @@ export class ParentsCreateComponent implements OnInit {
                 '';
     }
 
-    getStudentCountErrorMessage() {
-        return this.createForm.controls.studentCount.hasError('required') ? 'Please select number of students' :
-            '';
-    }
-
     onSubmit() {
         this.now = new Date();
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.createForm.valid) {
             this.createForm.value.birthday = this.datePipe.transform(this.createForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');
-            this.createForm.value.create_date = this.now;
-            this.createForm.value.create_by = this.userId;
+            this.createForm.value.createDate = this.now;
+            this.createForm.value.createBy = this.userId;
             this.createForm.value.active = true;
             this.http.post(this.configService.getParentsUrl(), this.createForm.value, this.httpOptions)
                 .subscribe( response => {

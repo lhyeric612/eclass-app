@@ -15,6 +15,9 @@ import { NavigationService } from '../navigation.service';
 })
 export class UsersDetailsComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     private routeSub: Subscription;
     private httpOptions: any;
     private userData: any;
@@ -22,7 +25,7 @@ export class UsersDetailsComponent implements OnInit {
     private roles: any;
 
     editForm = new FormGroup({
-        email: new FormControl('', [Validators.required, Validators.email]),
+        email: new FormControl('', [Validators.required]),
         firstName: new FormControl('', [Validators.required]),
         lastName: new FormControl('', [Validators.required]),
         roleId: new FormControl('', [Validators.required]),
@@ -62,6 +65,8 @@ export class UsersDetailsComponent implements OnInit {
                     this.editForm.controls.lastName.setValue(this.userData.lastName);
                     this.editForm.controls.roleId.setValue(this.userData.roleId);
                     this.editForm.controls.active.setValue(this.userData.active);
+                    this.progressMode = 'determinate';
+                    this.progressValue = 100;
                 }, error => {
                     this.router.navigateByUrl('/');
                 });

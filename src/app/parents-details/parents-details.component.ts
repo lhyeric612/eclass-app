@@ -17,6 +17,9 @@ import { NavigationService } from '../navigation.service';
 })
 export class ParentsDetailsComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     private routeSub: Subscription;
     private httpOptions: any;
     private parentData: any;
@@ -72,19 +75,21 @@ export class ParentsDetailsComponent implements OnInit {
         }
         this.routeSub = this.route.params.subscribe(params => {
             this.parentId = params.id;
-            this.http.get(this.configService.getTeacherByIdUrl(this.parentId), this.httpOptions)
+            this.http.get(this.configService.getParentByIdUrl(this.parentId), this.httpOptions)
                 .subscribe(userByIdResponse => {
                     this.parentData = userByIdResponse;
                     this.editForm.controls.firstName.setValue(this.parentData.firstName);
                     this.editForm.controls.lastName.setValue(this.parentData.lastName);
-                    this.editForm.controls.lastName.setValue(this.parentData.nickName);
-                    this.editForm.controls.lastName.setValue(this.parentData.chineseName);
+                    this.editForm.controls.nickName.setValue(this.parentData.nickName);
+                    this.editForm.controls.chineseName.setValue(this.parentData.chineseName);
                     this.editForm.controls.gender.setValue(this.parentData.gender);
                     this.editForm.controls.birthday.setValue(new Date(this.parentData.birthday));
                     this.editForm.controls.address.setValue(this.parentData.address);
                     this.editForm.controls.mobile.setValue(this.parentData.mobile);
                     this.editForm.controls.email.setValue(this.parentData.email);
                     this.editForm.controls.active.setValue(this.parentData.active);
+                    this.progressMode = 'determinate';
+                    this.progressValue = 100;
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -128,8 +133,8 @@ export class ParentsDetailsComponent implements OnInit {
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.editForm.valid) {
             this.editForm.value.birthday = this.datePipe.transform(this.editForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');
-            this.editForm.value.update_date = this.now;
-            this.editForm.value.update_by = this.userId;
+            this.editForm.value.updateDate = this.now;
+            this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getParentByIdUrl(this.parentId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
                     this.router.navigateByUrl('/parents');

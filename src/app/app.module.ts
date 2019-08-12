@@ -20,7 +20,9 @@ import {
     MatSortModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule, MatProgressSpinnerModule
+    MatNativeDateModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -47,6 +49,12 @@ import { TeachersDetailsComponent } from './teachers-details/teachers-details.co
 import { ParentsComponent } from './parents/parents.component';
 import { ParentsCreateComponent } from './parents-create/parents-create.component';
 import { ParentsDetailsComponent } from './parents-details/parents-details.component';
+import { StudentsComponent } from './students/students.component';
+import { StudentsCreateComponent } from './students-create/students-create.component';
+import { StudentsDetailsComponent } from './students-details/students-details.component';
+import { CoursesComponent } from './courses/courses.component';
+import { CoursesCreateComponent } from './courses-create/courses-create.component';
+import { CoursesDetailsComponent } from './courses-details/courses-details.component';
 
 const appRoutes: Routes = [
     { path: '', component: LoginComponent },
@@ -68,7 +76,13 @@ const appRoutes: Routes = [
     { path: 'teachers/:id',      component: TeachersDetailsComponent },
     { path: 'parents', component: ParentsComponent },
     { path: 'parents/create', component: ParentsCreateComponent },
-    { path: 'parents/:id',      component: ParentsDetailsComponent },
+    { path: 'parents/:id', component: ParentsDetailsComponent },
+    { path: 'students', component: StudentsComponent },
+    { path: 'students/create', component: StudentsCreateComponent },
+    { path: 'students/:id', component: StudentsDetailsComponent },
+    { path: 'courses', component: CoursesComponent },
+    { path: 'courses/create', component: CoursesCreateComponent },
+    { path: 'courses/:id',      component: CoursesDetailsComponent },
     // {
     //     path: 'heroes',
     //     component: HeroListComponent,
@@ -105,7 +119,13 @@ const appRoutes: Routes = [
     TeachersDetailsComponent,
     ParentsComponent,
     ParentsCreateComponent,
-    ParentsDetailsComponent
+    ParentsDetailsComponent,
+    StudentsComponent,
+    StudentsCreateComponent,
+    StudentsDetailsComponent,
+    CoursesComponent,
+    CoursesCreateComponent,
+    CoursesDetailsComponent
   ],
     imports: [
         BrowserModule,
@@ -131,7 +151,8 @@ const appRoutes: Routes = [
         MatRadioModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatProgressBarModule
     ],
   providers: [ CookieService, MatDatepickerModule ],
   bootstrap: [ AppComponent ]

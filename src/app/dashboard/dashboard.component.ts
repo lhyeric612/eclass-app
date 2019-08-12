@@ -8,6 +8,9 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class DashboardComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     constructor(
         private cookieService: CookieService
     ) { }
@@ -15,6 +18,8 @@ export class DashboardComponent implements OnInit {
     ngOnInit() {
         if (this.cookieService.check('eclass-app')) {
             console.log('token exist');
+            this.progressMode = 'determinate';
+            this.progressValue = 100;
         }
     }
 

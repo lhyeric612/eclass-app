@@ -16,6 +16,9 @@ import { NavigationService } from '../navigation.service';
     styleUrls: ['./subjects-details.component.css']
 })
 export class SubjectsDetailsComponent implements OnInit {
+    
+    progressMode = 'indeterminate';
+    progressValue = 0;
 
     private routeSub: Subscription;
     private httpOptions: any;
@@ -26,7 +29,7 @@ export class SubjectsDetailsComponent implements OnInit {
     private userId: string;
 
     editForm = new FormGroup({
-        display_name: new FormControl('', [Validators.required]),
+        displayName: new FormControl('', [Validators.required]),
         code: new FormControl('', [Validators.required]),
         active: new FormControl('')
     });
@@ -68,9 +71,11 @@ export class SubjectsDetailsComponent implements OnInit {
             this.http.get(this.configService.getSubjectByIdUrl(this.subjectId), this.httpOptions)
                 .subscribe(userByIdResponse => {
                     this.subjectData = userByIdResponse;
-                    this.editForm.controls.display_name.setValue(this.subjectData.display_name);
+                    this.editForm.controls.displayName.setValue(this.subjectData.displayName);
                     this.editForm.controls.code.setValue(this.subjectData.code);
                     this.editForm.controls.active.setValue(this.subjectData.active);
+                    this.progressMode = 'determinate';
+                    this.progressValue = 100;
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'
@@ -84,7 +89,7 @@ export class SubjectsDetailsComponent implements OnInit {
     }
 
     getDisplayNameErrorMessage() {
-        return this.editForm.controls.display_name.hasError('required') ? 'Please enter display name' :
+        return this.editForm.controls.displayName.hasError('required') ? 'Please enter display name' :
                 '';
     }
 
@@ -102,8 +107,8 @@ export class SubjectsDetailsComponent implements OnInit {
         this.now = new Date();
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.editForm.valid) {
-            this.editForm.value.update_date = this.now;
-            this.editForm.value.update_by = this.userId;
+            this.editForm.value.updateDate = this.now;
+            this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getSubjectByIdUrl(this.subjectId), this.editForm.value, this.httpOptions)
                 .subscribe( response => {
                     this.navigationService.changeUrl('/subjects');

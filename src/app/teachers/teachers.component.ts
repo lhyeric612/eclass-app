@@ -14,12 +14,15 @@ import { NavigationService } from '../navigation.service';
 })
 export class TeachersComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     private httpOptions: any;
     private teacherList: any;
     private noRecord: boolean;
     private dataSource: any;
 
-    displayedColumns: string[] = ['firstName', 'lastName', 'gender', 'age', 'mobile', 'email', 'create_date', 'update_date', 'active'];
+    displayedColumns: string[] = ['firstName', 'lastName', 'gender', 'age', 'mobile', 'email', 'createDate', 'updateDate', 'active'];
 
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -55,6 +58,8 @@ export class TeachersComponent implements OnInit {
                 this.dataSource = new MatTableDataSource<PeriodicElement>(this.teacherList);
                 this.dataSource.sort = this.sort;
                 this.dataSource.paginator = this.paginator;
+                this.progressMode = 'determinate';
+                this.progressValue = 100;
             }, error => {
                 this.router.navigateByUrl('/');
             });
@@ -80,7 +85,7 @@ export interface PeriodicElement {
     age: string;
     mobile: string;
     email: string;
-    create_date: string;
-    update_date: string;
+    createDate: string;
+    updateDate: string;
     active: boolean;
 }

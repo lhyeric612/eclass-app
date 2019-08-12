@@ -28,6 +28,9 @@
               "src/styles.css"
             ],
             "scripts": [
+              "src/assets/js/jquery-2.1.1.js",
+              "src/assets/js/jquery.metisMenu.js",
+              "src/assets/js/inspinia.js"
             ]
           },
           "configurations": {

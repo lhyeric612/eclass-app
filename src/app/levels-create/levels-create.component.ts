@@ -16,13 +16,16 @@ import { NavigationService } from '../navigation.service';
 })
 export class LevelsCreateComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     private httpOptions: any;
     private userMeData: any;
     private userId: string;
     private now: any;
 
     createForm = new FormGroup({
-        display_name: new FormControl('', [Validators.required]),
+        displayName: new FormControl('', [Validators.required]),
         code: new FormControl('', [Validators.required]),
     });
 
@@ -49,6 +52,8 @@ export class LevelsCreateComponent implements OnInit {
                 .subscribe(userMenResponse => {
                     this.userMeData = userMenResponse;
                     this.userId = this.userMeData.id;
+                    this.progressMode = 'determinate';
+                    this.progressValue = 100;
                 }, error => {
                     this.router.navigateByUrl('/');
                 });
@@ -60,7 +65,7 @@ export class LevelsCreateComponent implements OnInit {
     }
 
     getDisplayNameErrorMessage() {
-        return this.createForm.controls.display_name.hasError('required') ? 'Please enter display name' :
+        return this.createForm.controls.displayName.hasError('required') ? 'Please enter display name' :
             '';
     }
 
@@ -73,8 +78,8 @@ export class LevelsCreateComponent implements OnInit {
         this.now = new Date();
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.createForm.valid) {
-            this.createForm.value.create_date = this.now;
-            this.createForm.value.create_by = this.userId;
+            this.createForm.value.createDate = this.now;
+            this.createForm.value.createBy = this.userId;
             this.createForm.value.active = true;
             this.http.post(this.configService.getLevelsUrl(), this.createForm.value, this.httpOptions)
                 .subscribe(response => {

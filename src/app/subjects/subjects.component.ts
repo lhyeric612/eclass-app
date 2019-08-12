@@ -16,12 +16,15 @@ import { NavigationService } from '../navigation.service';
 })
 export class SubjectsComponent implements OnInit {
 
+    progressMode = 'indeterminate';
+    progressValue = 0;
+
     private httpOptions: any;
     private subjectList: any;
     private noRecord: boolean;
     private dataSource: any;
 
-    displayedColumns: string[] = ['display_name', 'code', 'create_date', 'update_date', 'active'];
+    displayedColumns: string[] = ['displayName', 'code', 'createDate', 'updateDate', 'active'];
 
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -51,6 +54,8 @@ export class SubjectsComponent implements OnInit {
                 this.dataSource = new MatTableDataSource<PeriodicElement>(this.subjectList);
                 this.dataSource.sort = this.sort;
                 this.dataSource.paginator = this.paginator;
+                this.progressMode = 'determinate';
+                this.progressValue = 100;
             }, error => {
                 this.router.navigateByUrl('/');
             });
@@ -71,11 +76,9 @@ export class SubjectsComponent implements OnInit {
 }
 
 export interface PeriodicElement {
-    display_name: string;
+    displayName: string;
     code: string;
-    create_date: string;
-    // create_by: string;
-    update_date: string;
-    // update_by: string;
+    createDate: string;
+    updateDate: string;
     active: boolean;
 }
