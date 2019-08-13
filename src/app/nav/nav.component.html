@@ -39,22 +39,16 @@
                     <span class="nav-label">Students</span>
                 </a>
             </li>
-            <li [ngClass]="{'active': menuActive.includes('teacher-lessons')}">
-                <a (click)="changeRoutLink('teacher-lessons')">
-                    <fa-icon icon="chalkboard-teacher"></fa-icon>
-                    <span class="nav-label">Teacher Lessons</span>
-                </a>
-            </li>
             <li [ngClass]="{'active': menuActive.includes('teachers')}">
                 <a (click)="changeRoutLink('teachers')">
                     <fa-icon icon="user-tie"></fa-icon>
                     <span class="nav-label">Teachers</span>
                 </a>
             </li>
-            <li [ngClass]="{'active': menuActive.includes('classes')}">
-                <a (click)="changeRoutLink('classes')">
-                    <fa-icon icon="chalkboard"></fa-icon>
-                    <span class="nav-label">Classes</span>
+            <li [ngClass]="{'active': menuActive.includes('teacher-lessons')}">
+                <a (click)="changeRoutLink('teacher-lessons')">
+                    <fa-icon icon="chalkboard-teacher"></fa-icon>
+                    <span class="nav-label">Teacher Lessons</span>
                 </a>
             </li>
             <li [ngClass]="{'active': menuActive.includes('courses')}">
@@ -63,16 +57,28 @@
                     <span class="nav-label">Courses</span>
                 </a>
             </li>
-            <li [ngClass]="{'active': menuActive.includes('levels')}">
-                <a (click)="changeRoutLink('levels')">
-                    <fa-icon icon="layer-group"></fa-icon>
-                    <span class="nav-label">Levels</span>
+            <li [ngClass]="{'active': menuActive.includes('plans')}">
+                <a (click)="changeRoutLink('plans')">
+                    <fa-icon icon="book-open"></fa-icon>
+                    <span class="nav-label">Course Plans</span>
                 </a>
             </li>
             <li [ngClass]="{'active': menuActive.includes('subjects')}">
                 <a (click)="changeRoutLink('subjects')">
                     <fa-icon icon="language"></fa-icon>
                     <span class="nav-label">Subjects</span>
+                </a>
+            </li>
+            <li [ngClass]="{'active': menuActive.includes('levels')}">
+                <a (click)="changeRoutLink('levels')">
+                    <fa-icon icon="layer-group"></fa-icon>
+                    <span class="nav-label">Levels</span>
+                </a>
+            </li>
+            <li [ngClass]="{'active': menuActive.includes('classes')}">
+                <a (click)="changeRoutLink('classes')">
+                    <fa-icon icon="chalkboard"></fa-icon>
+                    <span class="nav-label">Classes</span>
                 </a>
             </li>
             <li [ngClass]="{'active': menuActive.includes('users')}">

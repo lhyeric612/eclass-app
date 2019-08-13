@@ -110,4 +110,17 @@ export class ConfigService {
         return this.basicUrl + 'courses/' + id + '/levels';
     }
 
+    // Plans API
+
+    getPlansUrl() {
+        return this.basicUrl + 'course-plans';
+    }
+
+    getPlansByIdUrl(id: string) {
+        return this.basicUrl + 'course-plans/' + id;
+    }
+
+    getCoursePlansByIdUrl(id: string) {
+        return this.basicUrl + 'course-plans/' + id + '/courses';
+    }
 }

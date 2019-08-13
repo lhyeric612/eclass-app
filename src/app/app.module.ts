@@ -56,25 +56,28 @@ import { CoursesComponent } from './courses/courses.component';
 import { CoursesCreateComponent } from './courses-create/courses-create.component';
 import { CoursesDetailsComponent } from './courses-details/courses-details.component';
 import { LogoutComponent } from './logout/logout.component';
+import { PlansComponent } from './plans/plans.component';
+import { PlansCreateComponent } from './plans-create/plans-create.component';
+import { PlansDetailsComponent } from './plans-details/plans-details.component';
 
 const appRoutes: Routes = [
     { path: '', component: LoginComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'users', component: UsersComponent },
     { path: 'users/create', component: UsersCreateComponent },
-    { path: 'users/:id',      component: UsersDetailsComponent },
+    { path: 'users/:id', component: UsersDetailsComponent },
     { path: 'subjects', component: SubjectsComponent },
     { path: 'subjects/create', component: SubjectsCreateComponent },
-    { path: 'subjects/:id',      component: SubjectsDetailsComponent },
+    { path: 'subjects/:id', component: SubjectsDetailsComponent },
     { path: 'levels', component: LevelsComponent },
     { path: 'levels/create', component: LevelsCreateComponent },
-    { path: 'levels/:id',      component: LevelsDetailsComponent },
+    { path: 'levels/:id', component: LevelsDetailsComponent },
     { path: 'classes', component: ClassesComponent },
     { path: 'classes/create', component: ClassesCreateComponent },
-    { path: 'classes/:id',      component: ClassesDetailsComponent },
+    { path: 'classes/:id', component: ClassesDetailsComponent },
     { path: 'teachers', component: TeachersComponent },
     { path: 'teachers/create', component: TeachersCreateComponent },
-    { path: 'teachers/:id',      component: TeachersDetailsComponent },
+    { path: 'teachers/:id', component: TeachersDetailsComponent },
     { path: 'parents', component: ParentsComponent },
     { path: 'parents/create', component: ParentsCreateComponent },
     { path: 'parents/:id', component: ParentsDetailsComponent },
@@ -83,7 +86,11 @@ const appRoutes: Routes = [
     { path: 'students/:id', component: StudentsDetailsComponent },
     { path: 'courses', component: CoursesComponent },
     { path: 'courses/create', component: CoursesCreateComponent },
-    { path: 'courses/:id',      component: CoursesDetailsComponent },
+    { path: 'courses/:id', component: CoursesDetailsComponent },
+    { path: 'plans', component: PlansComponent },
+    { path: 'plans/create', component: PlansCreateComponent },
+    { path: 'plans/:id', component: PlansDetailsComponent },
+    
     { path: 'logout',      component: LogoutComponent },
     // {
     //     path: 'heroes',
@@ -128,7 +135,10 @@ const appRoutes: Routes = [
     CoursesComponent,
     CoursesCreateComponent,
     CoursesDetailsComponent,
-    LogoutComponent
+    LogoutComponent,
+    PlansComponent,
+    PlansCreateComponent,
+    PlansDetailsComponent
   ],
     imports: [
         BrowserModule,

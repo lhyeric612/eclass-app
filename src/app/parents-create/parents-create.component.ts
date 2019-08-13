@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {CookieService} from 'ngx-cookie-service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ToastrService} from 'ngx-toastr';
-import {ConfigService} from '../config.service';
-import {DatePipe} from '@angular/common';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { ConfigService } from '../config.service';
+import { DatePipe } from '@angular/common';
 import { NavigationService } from '../navigation.service';
 
 @Component({
