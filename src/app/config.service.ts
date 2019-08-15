@@ -123,4 +123,22 @@ export class ConfigService {
     getCoursePlansByIdUrl(id: string) {
         return this.basicUrl + 'course-plans/' + id + '/courses';
     }
+
+    // Lesson Schedule API
+
+    getLessonScheduleUrl() {
+        return this.basicUrl + 'lesson-schedules';
+    }
+
+    getLessonScheduleByIdUrl(id: string) {
+        return this.basicUrl + 'lesson-schedules/' + id;
+    }
+
+    getLessonScheduleClassByIdUrl(id: string) {
+        return this.basicUrl + 'lesson-schedules/' + id + '/classes';
+    }
+
+    getLessonScheduleCourseByIdUrl(id: string) {
+        return this.basicUrl + 'lesson-schedules/' + id + '/courses';
+    }
 }

@@ -24,6 +24,7 @@ import {
     MatProgressSpinnerModule,
     MatProgressBarModule
 } from '@angular/material';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -59,6 +60,9 @@ import { LogoutComponent } from './logout/logout.component';
 import { PlansComponent } from './plans/plans.component';
 import { PlansCreateComponent } from './plans-create/plans-create.component';
 import { PlansDetailsComponent } from './plans-details/plans-details.component';
+import { LessonScheduleComponent } from './lesson-schedule/lesson-schedule.component';
+import { LessonScheduleCreateComponent } from './lesson-schedule-create/lesson-schedule-create.component';
+import { LessonScheduleDetailsComponent } from './lesson-schedule-details/lesson-schedule-details.component';
 
 const appRoutes: Routes = [
     { path: '', component: LoginComponent },
@@ -90,6 +94,10 @@ const appRoutes: Routes = [
     { path: 'plans', component: PlansComponent },
     { path: 'plans/create', component: PlansCreateComponent },
     { path: 'plans/:id', component: PlansDetailsComponent },
+    { path: 'lesson-schedule', component: LessonScheduleComponent },
+    { path: 'lesson-schedule/create', component: LessonScheduleCreateComponent },
+    { path: 'lesson-schedule/:id', component: LessonScheduleDetailsComponent },
+    
     
     { path: 'logout',      component: LogoutComponent },
     // {
@@ -138,7 +146,10 @@ const appRoutes: Routes = [
     LogoutComponent,
     PlansComponent,
     PlansCreateComponent,
-    PlansDetailsComponent
+    PlansDetailsComponent,
+    LessonScheduleComponent,
+    LessonScheduleCreateComponent,
+    LessonScheduleDetailsComponent
   ],
     imports: [
         BrowserModule,
@@ -165,7 +176,8 @@ const appRoutes: Routes = [
         MatDatepickerModule,
         MatNativeDateModule,
         MatProgressSpinnerModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        NgxMaterialTimepickerModule
     ],
   providers: [ CookieService, MatDatepickerModule ],
   bootstrap: [ AppComponent ]

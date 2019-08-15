@@ -81,6 +81,12 @@
                     <span class="nav-label">Classes</span>
                 </a>
             </li>
+            <li [ngClass]="{'active': menuActive.includes('lesson-schedule')}">
+                <a (click)="changeRoutLink('lesson-schedule')">
+                    <fa-icon icon="chalkboard"></fa-icon>
+                    <span class="nav-label">Lesson Scheduler</span>
+                </a>
+            </li>
             <li [ngClass]="{'active': menuActive.includes('users')}">
                 <a (click)="changeRoutLink('users')">
                     <fa-icon icon="users"></fa-icon>
