@@ -36,7 +36,8 @@ export class LessonScheduleCreateComponent implements OnInit {
         fromDate: new FormControl('', [Validators.required]),
         toDate: new FormControl(''),
         totalLessons: new FormControl(0),
-        weeks: new FormControl('', [Validators.required])
+        weeks: new FormControl('', [Validators.required]),
+        publicHolidays: new FormControl(false, [Validators.required])
     });
 
     weeks = [
@@ -46,7 +47,7 @@ export class LessonScheduleCreateComponent implements OnInit {
         { id: 4, displayName: "Thursday" },
         { id: 5, displayName: "Friday" },
         { id: 6, displayName: "Saturday" },
-        { id: 7, displayName: "Sunday" }
+        { id: 0, displayName: "Sunday" }
     ];
 
     constructor(
@@ -147,13 +148,41 @@ export class LessonScheduleCreateComponent implements OnInit {
         this.now = new Date();
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.createForm.valid) {
+            this.createForm.value.fromDate = this.datePipe.transform(this.createForm.value.fromDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');
+            this.createForm.value.toDate = this.datePipe.transform(this.createForm.value.toDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');
+            this.createForm.value.createDate = this.now;
+            this.createForm.value.createBy = this.userId;
+            this.createForm.value.status = 'pending';
+            this.http.post(this.configService.getLessonScheduleUrl(), this.createForm.value, this.httpOptions)
+                .subscribe(response => {
+                    this.toastr.success('Lesson Schedule Job Created.', 'Success', {
+                        positionClass: 'toast-top-center'
+                    });
+                    this.navigationService.changeUrl('lesson-schedule/');
+                }, error => {
+                    this.toastr.error(error.error.message, 'Error', {
+                        positionClass: 'toast-top-center'
+                    });
+                });
+        }
+    }
+
+    onGenerate() {
+        this.now = new Date();
+        this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
+        if (this.createForm.valid) {
+            this.createForm.value.fromDate = this.datePipe.transform(this.createForm.value.fromDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');
+            this.createForm.value.toDate = this.datePipe.transform(this.createForm.value.toDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');
             this.createForm.value.createDate = this.now;
             this.createForm.value.createBy = this.userId;
             this.createForm.value.status = 'pending';
             this.http.post(this.configService.getLessonScheduleUrl(), this.createForm.value, this.httpOptions)
                 .subscribe(response => {
                     this.createResponse = response;
-                    // this.navigationService.changeUrl('lesson-schedule');
+                    // this.toastr.success('Lesson Schedule Job Created.', 'Success', {
+                    //     positionClass: 'toast-top-center'
+                    // });
+                    // this.navigationService.changeUrl('lesson-schedule/' + this.createResponse.id);
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

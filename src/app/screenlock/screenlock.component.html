@@ -1,0 +1,29 @@
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name"><img src="/assets/images/logo.jpg" width="100%"/></h1>
+        </div>
+        <p>Your are in lock screen.</p>
+        <p>Main app was shut down and you need to enter your password to go back to app.</p>
+        <form class="m-t" role="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <div class="col-sm-4 username-label">Username: </div>
+                <div class="col-sm-4">{{email}}</div>
+            </div>
+            <div class="form-group">
+                <mat-form-field class="full-width">
+                    <input matInput id="password" type="password" class="form-control" placeholder="Password" required formControlName="password">
+                    <mat-error *ngIf="loginForm.invalid">{{getPasswordErrorMessage()}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+                <button type="submit" mat-flat-button class="mat-primary block full-width m-b" [disabled]="loginForm.invalid">Login</button>
+            </div>
+            <div class="col-sm-6">
+                <button type="submit" mat-flat-button class="mat-warn block full-width m-b" (click)="changeUser()">Change User</button>
+            </div>        
+        </form>
+        <p class="m-t copyright"> <small>Little Frog Learning Centre &copy; 2019</small> </p>
+    </div>
+</div>
+    

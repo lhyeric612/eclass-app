@@ -25,6 +25,7 @@ export class NavComponent implements OnInit {
     private email: string;
     private password: string;
     private loginRes: any;
+    private interval: any;
 
     constructor(
         private cookieService: CookieService,
@@ -43,6 +44,10 @@ export class NavComponent implements OnInit {
     }
 
     ngOnInit() {
+        // this.interval = setInterval(() => {
+        //     this.screenLock();
+        // }, 10000);
+
         this.show = true;
 
         this.menuActive = this.router.url.split('/')[1];
@@ -110,8 +115,19 @@ export class NavComponent implements OnInit {
             });
     }
 
+    ngOnDestroy() {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
+    }
+
     changeRoutLink(url) {
         this.navigationService.changeUrl(url);
+    }
+
+    screenLock() {
+        this.cookieService.delete('eclass-app');
+        this.router.navigateByUrl('screenlock');
     }
 
 }

@@ -14,7 +14,7 @@ import { NavigationService } from '../navigation.service';
 })
 export class LessonScheduleComponent implements OnInit {
 
-  progressMode = 'indeterminate';
+    progressMode = 'indeterminate';
     progressValue = 0;
 
     private httpOptions: any;
@@ -95,5 +95,4 @@ export interface PeriodicElement {
     status: string;
     createDate: string;
     updateDate: string;
-    active: boolean;
 }

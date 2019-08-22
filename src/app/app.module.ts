@@ -22,7 +22,8 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatCheckboxModule
 } from '@angular/material';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
@@ -63,6 +64,8 @@ import { PlansDetailsComponent } from './plans-details/plans-details.component';
 import { LessonScheduleComponent } from './lesson-schedule/lesson-schedule.component';
 import { LessonScheduleCreateComponent } from './lesson-schedule-create/lesson-schedule-create.component';
 import { LessonScheduleDetailsComponent } from './lesson-schedule-details/lesson-schedule-details.component';
+import { ScreenlockComponent } from './screenlock/screenlock.component';
+import { FooterComponent } from './footer/footer.component';
 
 const appRoutes: Routes = [
     { path: '', component: LoginComponent },
@@ -98,7 +101,7 @@ const appRoutes: Routes = [
     { path: 'lesson-schedule/create', component: LessonScheduleCreateComponent },
     { path: 'lesson-schedule/:id', component: LessonScheduleDetailsComponent },
     
-    
+    { path: 'screenlock',      component: ScreenlockComponent },
     { path: 'logout',      component: LogoutComponent },
     // {
     //     path: 'heroes',
@@ -149,7 +152,9 @@ const appRoutes: Routes = [
     PlansDetailsComponent,
     LessonScheduleComponent,
     LessonScheduleCreateComponent,
-    LessonScheduleDetailsComponent
+    LessonScheduleDetailsComponent,
+    ScreenlockComponent,
+    FooterComponent
   ],
     imports: [
         BrowserModule,
@@ -177,7 +182,8 @@ const appRoutes: Routes = [
         MatNativeDateModule,
         MatProgressSpinnerModule,
         MatProgressBarModule,
-        NgxMaterialTimepickerModule
+        NgxMaterialTimepickerModule,
+        MatCheckboxModule
     ],
   providers: [ CookieService, MatDatepickerModule ],
   bootstrap: [ AppComponent ]

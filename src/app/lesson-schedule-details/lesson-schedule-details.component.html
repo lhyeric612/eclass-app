@@ -1,148 +1,164 @@
 <div class="skin-1">
-        <div id="wrapper">
-            <mat-progress-bar [mode]="progressMode" [value]="progressValue"></mat-progress-bar>
-            <app-nav></app-nav>
-            <div id="page-wrapper" class="gray-bg">
-                <app-top-nav></app-top-nav>
-                <div class="wrapper wrapper-content">
-                    <div class="row wrapper border-bottom white-bg page-heading">
-                        <div class="col-lg-8">
-                            <h2>Lesson Scheduler</h2>
-                            <ol class="breadcrumb">
-                                <li>
-                                    <a href="/dashboard">Dashboard</a>
-                                </li>
-                                <li>
-                                    <span>Lesson Scheduler</span>
-                                </li>
-                                <li class="active">
-                                    <span>{{lessonScheduleId}}</span>
-                                </li>
-                            </ol>
+    <div class="mask" *ngIf="isLoading">
+        <div class="text-center" *ngIf="isLoading">
+            <h1>Generating... ( {{generateCount}} / {{generateCountTotal}} )</h1>
+            <mat-progress-bar [mode]="generateMode" [value]="generateValue"></mat-progress-bar>        
+        </div>
+    </div>
+    <div id="wrapper">
+        <mat-progress-bar [mode]="progressMode" [value]="progressValue"></mat-progress-bar>
+        <app-nav></app-nav>
+        <div id="page-wrapper" class="gray-bg">
+            <app-top-nav></app-top-nav>
+            <div class="wrapper wrapper-content">
+                <div class="row wrapper border-bottom white-bg page-heading">
+                    <div class="col-lg-8">
+                        <h2>Lesson Scheduler</h2>
+                        <ol class="breadcrumb">
+                            <li>
+                                <a href="/dashboard">Dashboard</a>
+                            </li>
+                            <li>
+                                <span>Lesson Scheduler</span>
+                            </li>
+                            <li class="active">
+                                <span>{{lessonScheduleId}}</span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="title-action" *ngIf="scheduleStatus == 'pending'">
+                            <button type="submit" class="mat-warn" mat-flat-button [disabled]="editForm.invalid" (click)="onGenerate()">Generate</button>
+                            <button type="submit" class="mat-primary" mat-flat-button [disabled]="editForm.invalid" (click)="onSubmit()">Save</button>
+                            <button mat-stroked-button (click)="back()">Back</button>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="title-action">
-                                <button type="submit" class="mat-primary" mat-flat-button [disabled]="editForm.invalid" (click)="onSubmit()">Save</button>
-                                <button mat-stroked-button (click)="back()">Back</button>
-                            </div>
+                        <div class="title-action" *ngIf="scheduleStatus == 'generated'">
+                            <button type="submit" class="mat-warn" mat-flat-button disabled>Generated</button>
+                            <button type="submit" class="mat-primary" mat-flat-button [disabled]="editForm.invalid" (click)="onSubmit()">Save</button>
+                            <button mat-stroked-button (click)="back()">Back</button>
                         </div>
                     </div>
-                    <div class="wrapper wrapper-content">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="ibox float-e-margins">
-                                    <div class="ibox-content">
-                                        <form class="m-t" role="form" [formGroup]="editForm">
-                                            <div class="form-group">
-                                                <div class="col-sm-8 col-sm-offset-2">
-                                                    <mat-form-field class="full-width">
-                                                        <mat-label>Classes</mat-label>
-                                                        <mat-select formControlName="classId" required>
-                                                            <mat-option *ngFor="let class of classes" [value]="class.id">
-                                                                {{class.displayName}}
-                                                            </mat-option>
-                                                        </mat-select>
-                                                        <mat-error *ngIf="editForm.invalid">{{getClassErrorMessage()}}</mat-error>
-                                                    </mat-form-field>
-                                                </div>
+                </div>
+                <div class="wrapper wrapper-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <form class="m-t" role="form" [formGroup]="editForm">
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <mat-label>Classes</mat-label>
+                                                    <mat-select formControlName="classId" required>
+                                                        <mat-option *ngFor="let class of classes" [value]="class.id">
+                                                            {{class.displayName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="editForm.invalid">{{getClassErrorMessage()}}</mat-error>
+                                                </mat-form-field>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-8 col-sm-offset-2">
-                                                    <mat-form-field class="full-width">
-                                                        <mat-label>Courses</mat-label>
-                                                        <mat-select formControlName="courseId" required>
-                                                            <mat-option *ngFor="let course of courses" [value]="course.id">
-                                                                {{course.courseName}}
-                                                            </mat-option>
-                                                        </mat-select>
-                                                        <mat-error *ngIf="editForm.invalid">{{getCourseErrorMessage()}}</mat-error>
-                                                    </mat-form-field>
-                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <mat-label>Courses</mat-label>
+                                                    <mat-select formControlName="courseId" required>
+                                                        <mat-option *ngFor="let course of courses" [value]="course.id">
+                                                            {{course.courseName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="editForm.invalid">{{getCourseErrorMessage()}}</mat-error>
+                                                </mat-form-field>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-8 col-sm-offset-2">
-                                                    <mat-form-field class="full-width">
-                                                        <input matInput type="text" placeholder="Title" class="form-control" required formControlName="title">
-                                                        <mat-error *ngIf="editForm.invalid">{{getTitleErrorMessage()}}</mat-error>
-                                                    </mat-form-field>
-                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="Title" class="form-control" required formControlName="title">
+                                                    <mat-error *ngIf="editForm.invalid">{{getTitleErrorMessage()}}</mat-error>
+                                                </mat-form-field>
                                             </div>
-                                            <div class="form-group">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-4 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="Start Time" class="form-control" [ngxTimepicker]="startTime" [format]="24" required formControlName="startTime" readonly>
+                                                    <ngx-material-timepicker #startTime [ngClass]="{'inline-block':previewMode, 'none':!previewMode}"></ngx-material-timepicker>
+                                                    <mat-error *ngIf="editForm.invalid">{{getStartTimeErrorMessage()}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="End Time" class="form-control" [ngxTimepicker]="endTime" [format]="24" required formControlName="endTime" readonly>
+                                                    <ngx-material-timepicker #endTime [ngClass]="{'inline-block':previewMode, 'none':!previewMode}"></ngx-material-timepicker>
+                                                    <mat-error *ngIf="editForm.invalid">{{getEndTimeErrorMessage()}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="number" placeholder="Number of Student" class="form-control" required formControlName="studentNum">
+                                                    <mat-error *ngIf="editForm.invalid">{{getStudentNumErrorMessage()}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="height: 50px">
                                                 <div class="col-sm-4 col-sm-offset-2">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput type="text" placeholder="Start Time" class="form-control" [ngxTimepicker]="startTime" [format]="24" required formControlName="startTime" readonly>
-                                                        <ngx-material-timepicker #startTime></ngx-material-timepicker>
-                                                        <mat-error *ngIf="editForm.invalid">{{getStartTimeErrorMessage()}}</mat-error>
+                                                        <input matInput [matDatepicker]="fromDate" placeholder="Choose a from date" required formControlName="fromDate" readonly>
+                                                        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                                                        <mat-datepicker #fromDate [ngClass]="{'inline-block':previewMode, 'none':!previewMode}"></mat-datepicker>
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput type="text" placeholder="End Time" class="form-control" [ngxTimepicker]="endTime" [format]="24" required formControlName="endTime" readonly>
-                                                        <ngx-material-timepicker #endTime></ngx-material-timepicker>
-                                                        <mat-error *ngIf="editForm.invalid">{{getEndTimeErrorMessage()}}</mat-error>
+                                                        <input matInput [matDatepicker]="toDate" placeholder="Choose a to date" formControlName="toDate" readonly>
+                                                        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                                                        <mat-datepicker #toDate [ngClass]="{'inline-block':previewMode, 'none':!previewMode}"></mat-datepicker>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-8 col-sm-offset-2">
-                                                    <mat-form-field class="full-width">
-                                                        <input matInput type="number" placeholder="Number of Student" class="form-control" required formControlName="studentNum">
-                                                        <mat-error *ngIf="editForm.invalid">{{getStudentNumErrorMessage()}}</mat-error>
-                                                    </mat-form-field>
-                                                </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="number" placeholder="Total Lessons" class="form-control" formControlName="totalLessons">
+                                                    <mat-error *ngIf="editForm.invalid">{{getTotalLessonsErrorMessage()}}</mat-error>
+                                                </mat-form-field>
                                             </div>
-                                            <div class="form-group" style="height: 50px">
-                                                    <div class="col-sm-4 col-sm-offset-2">
-                                                        <mat-form-field class="full-width">
-                                                            <input matInput [matDatepicker]="fromDate" placeholder="Choose a from date" required formControlName="fromDate" readonly>
-                                                            <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
-                                                            <mat-datepicker #fromDate></mat-datepicker>
-                                                        </mat-form-field>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <mat-form-field class="full-width">
-                                                            <input matInput [matDatepicker]="toDate" placeholder="Choose a to date" formControlName="toDate" readonly>
-                                                            <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
-                                                            <mat-datepicker #toDate></mat-datepicker>
-                                                        </mat-form-field>
-                                                    </div>
-                                                </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-8 col-sm-offset-2">
-                                                    <mat-form-field class="full-width">
-                                                        <input matInput type="number" placeholder="Total Lessons" class="form-control" formControlName="totalLessons">
-                                                        <mat-error *ngIf="editForm.invalid">{{getTotalLessonsErrorMessage()}}</mat-error>
-                                                    </mat-form-field>
-                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <mat-label>Weeks</mat-label>
+                                                    <mat-select formControlName="weeks" required multiple>
+                                                        <mat-option *ngFor="let week of weeks" [value]="week.id">
+                                                            {{week.displayName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="editForm.invalid">{{getWeeksErrorMessage()}}</mat-error>
+                                                </mat-form-field>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-8 col-sm-offset-2">
-                                                    <mat-form-field class="full-width">
-                                                        <mat-label>Weeks</mat-label>
-                                                        <mat-select formControlName="weeks" required multiple>
-                                                            <mat-option *ngFor="let week of weeks" [value]="week.id">
-                                                                {{week.displayName}}
-                                                            </mat-option>
-                                                        </mat-select>
-                                                        <mat-error *ngIf="editForm.invalid">{{getWeeksErrorMessage()}}</mat-error>
-                                                    </mat-form-field>
-                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-checkbox formControlName="publicHolidays">Exclude Public Holidays</mat-checkbox>
                                             </div>
-                                        </form>
-                                        <form class="m-t" role="form" [formGroup]="deleteForm">
-                                            <div class="form-group">
-                                                <div class="col-sm-8 col-sm-offset-2">
-                                                    <mat-form-field class="full-width">
-                                                        <input matInput type="text" placeholder="Please enter lesson schedule id to delete" class="form-control" required formControlName="deleteLessonScheduleId">
-                                                        <mat-error *ngIf="deleteForm.invalid">{{getLessonScheduleIdErrorMessage()}}</mat-error>
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <button type="submit" class="mat-primary" mat-flat-button [disabled]="deleteForm.invalid" (click)="onDelete()">Delete</button>
-                                                </div>
+                                        </div>
+                                    </form>
+                                    <form class="m-t" role="form" [formGroup]="deleteForm">
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="Please enter lesson schedule id to delete" class="form-control" required formControlName="deleteLessonScheduleId">
+                                                    <mat-error *ngIf="deleteForm.invalid">{{getLessonScheduleIdErrorMessage()}}</mat-error>
+                                                </mat-form-field>
                                             </div>
-                                        </form>
-                                    </div>
+                                            <div class="col-sm-2">
+                                                <button type="submit" class="mat-primary" mat-flat-button [disabled]="deleteForm.invalid" (click)="onDelete()">Delete</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -151,4 +167,6 @@
             </div>
         </div>
     </div>
+    <app-footer></app-footer>
+</div>
     

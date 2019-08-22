@@ -16,6 +16,9 @@ body { background: #ffffff; }
 #wrapper { background-color: #2f4050; }
 .title-action > button { margin-right: 8px; }
 .skin-1 .nav-header { padding: 0 15px 15px; }
+.inline-block { display: inline-block !important; }
+.none { display: none !important; }
+.overflow-hidden { overflow: hidden !important; }
 
 .pointer { cursor: pointer; }
 .highlight:hover { background: #0e9aef !important; }

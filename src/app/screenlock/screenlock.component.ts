@@ -8,18 +8,17 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { NavigationService } from '../navigation.service';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
+  selector: 'app-screenlock',
+  templateUrl: './screenlock.component.html',
+  styleUrls: ['./screenlock.component.css']
 })
-
-export class LoginComponent implements OnInit {
+export class ScreenlockComponent implements OnInit {
 
     private httpOptions: any;
     private loginData: any;
+    private email: string;
 
     loginForm = new FormGroup({
-        email: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required])
     });
 
@@ -38,15 +37,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.cookieService.delete('eclass-app');
-        this.cookieService.delete('a');
-        this.cookieService.delete('b');
-    }
-
-    getEmailErrorMessage() {
-        return this.loginForm.controls.email.hasError('required') ? 'Please enter your login email' :
-            this.loginForm.controls.email.hasError('email') ? 'Not a valid email' :
-                '';
+        this.email = this.cookieService.get('a');
     }
 
     getPasswordErrorMessage() {
@@ -54,8 +45,13 @@ export class LoginComponent implements OnInit {
                 '';
     }
 
+    changeUser() {
+        this.navigationService.changeUrl('logout');
+    }
+
     onSubmit() {
         if (this.loginForm.valid) {
+            this.loginForm.value.email = this.email;
             this.loginForm.value.password = Md5.hashStr(this.loginForm.value.password);
 
             this.http.post(this.configService.getLoginUrl(), this.loginForm.value, this.httpOptions)
@@ -67,7 +63,7 @@ export class LoginComponent implements OnInit {
                     this.navigationService.changeUrl('dashboard');
                 }, error => {
                     if (error.status === 401 || error.status === 404 || error.status === 422) {
-                        this.toastr.error('Email / Password is incorrect', 'Login Failed', {
+                        this.toastr.error('Password is incorrect', 'Login Failed', {
                             positionClass: 'toast-top-center'
                         });
                     } else {
@@ -78,4 +74,5 @@ export class LoginComponent implements OnInit {
                 });
         }
     }
+
 }
