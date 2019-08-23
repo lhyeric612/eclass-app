@@ -124,7 +124,9 @@ export class TeachersDetailsComponent implements OnInit {
         this.now = new Date();
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.editForm.valid) {
-            this.editForm.value.birthday = this.datePipe.transform(this.editForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');
+            if (this.editForm.value.birthday != "") {
+                this.editForm.value.birthday = this.datePipe.transform(this.editForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');    
+            }
             this.editForm.value.updateDate = this.now;
             this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getTeacherByIdUrl(this.teacherId), this.editForm.value, this.httpOptions)

@@ -93,7 +93,6 @@ export class ParentsCreateComponent implements OnInit {
         this.now = new Date();
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.createForm.valid) {
-            console.log(this.createForm.value.birthday);
             if (this.createForm.value.birthday != "") {
                 this.createForm.value.birthday = this.datePipe.transform(this.createForm.value.birthday, 'yyyy-MM-dd HH:mm:ss', '+0800');
             }

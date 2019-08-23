@@ -24,11 +24,13 @@ export class LessonScheduleCreateComponent implements OnInit {
     private now: any;
     private classes: any;
     private courses: any;
+    private teachers: any;
     private createResponse: any;
 
     createForm = new FormGroup({
         classId: new FormControl('', [Validators.required]),
         courseId: new FormControl('', [Validators.required]),
+        teachers: new FormControl('', [Validators.required]),
         title: new FormControl('', [Validators.required]),
         startTime: new FormControl('', [Validators.required]),
         endTime: new FormControl('', [Validators.required]),
@@ -83,6 +85,17 @@ export class LessonScheduleCreateComponent implements OnInit {
                     }, error => {
                         this.navigationService.changeUrl('lesson-schedule/create');
                     });
+                this.http.get(this.configService.getTeachersUrl(), this.httpOptions)
+                    .subscribe(response => {
+                        this.teachers = response;
+                        if (this.teachers.length > 0) {
+                            for (let teacher of this.teachers) {
+                                teacher.displayName = teacher.firstName + ' ' + teacher.lastName;
+                            }
+                        }
+                    }, error => {
+                        this.navigationService.changeUrl('lesson-schedule/create');
+                    });
                 this.progressMode = 'determinate';
                 this.progressValue = 100;
             }, error => {
@@ -101,6 +114,11 @@ export class LessonScheduleCreateComponent implements OnInit {
 
     getCourseErrorMessage() {
         return this.createForm.controls.courseId.hasError('required') ? 'Please select course' :
+            '';
+    }
+
+    getTeachersErrorMessage() {
+        return this.createForm.controls.teachers.hasError('required') ? 'Please select teacher' :
             '';
     }
 
