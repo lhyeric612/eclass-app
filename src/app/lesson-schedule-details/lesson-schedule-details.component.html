@@ -74,6 +74,19 @@
                                         <div class="form-group">
                                             <div class="col-sm-8 col-sm-offset-2">
                                                 <mat-form-field class="full-width">
+                                                    <mat-label>Teachers</mat-label>
+                                                    <mat-select formControlName="teachers" required multiple>
+                                                        <mat-option *ngFor="let teacher of teachers" [value]="teacher.id">
+                                                            {{teacher.displayName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="editForm.invalid">{{getTeachersErrorMessage()}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
                                                     <input matInput type="text" placeholder="Title" class="form-control" required formControlName="title">
                                                     <mat-error *ngIf="editForm.invalid">{{getTitleErrorMessage()}}</mat-error>
                                                 </mat-form-field>

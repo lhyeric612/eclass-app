@@ -36,6 +36,7 @@ export class LessonScheduleDetailsComponent implements OnInit {
     private userId: string;
     private classes: any;
     private courses: any;
+    private teachers: any;
     private tempGenerateDates: Array<String> = [];
     private generateDates: Array<String> = [];
     private hkgovCalJson: any;
@@ -47,6 +48,7 @@ export class LessonScheduleDetailsComponent implements OnInit {
     editForm = new FormGroup({
         classId: new FormControl('', [Validators.required]),
         courseId: new FormControl('', [Validators.required]),
+        teachers: new FormControl('', [Validators.required]),
         title: new FormControl('', [Validators.required]),
         startTime: new FormControl('', [Validators.required]),
         endTime: new FormControl('', [Validators.required]),
@@ -102,6 +104,7 @@ export class LessonScheduleDetailsComponent implements OnInit {
                         this.lessonScheduleData = response;
                         this.editForm.controls.classId.setValue(this.lessonScheduleData.classId);
                         this.editForm.controls.courseId.setValue(this.lessonScheduleData.courseId);
+                        this.editForm.controls.teachers.setValue(this.lessonScheduleData.teachers);
 						this.editForm.controls.title.setValue(this.lessonScheduleData.title);
 						this.editForm.controls.startTime.setValue(this.lessonScheduleData.startTime);
 						this.editForm.controls.endTime.setValue(this.lessonScheduleData.endTime);
@@ -121,13 +124,24 @@ export class LessonScheduleDetailsComponent implements OnInit {
                     .subscribe(response => {
                         this.classes = response;
                     }, error => {
-                        this.navigationService.changeUrl('lesson-schedule/create');
+                        this.navigationService.changeUrl('lesson-schedule/' + this.lessonScheduleId);
                     });
                 this.http.get(this.configService.getCoursesUrl(), this.httpOptions)
                     .subscribe(response => {
                         this.courses = response;
                     }, error => {
-                        this.navigationService.changeUrl('lesson-schedule/create');
+                        this.navigationService.changeUrl('lesson-schedule/' + this.lessonScheduleId);
+                    });
+                this.http.get(this.configService.getTeachersUrl(), this.httpOptions)
+                    .subscribe(response => {
+                        this.teachers = response;
+                        if (this.teachers.length > 0) {
+                            for (let teacher of this.teachers) {
+                                teacher.displayName = teacher.firstName + ' ' + teacher.lastName;
+                            }
+                        }
+                    }, error => {
+                        this.navigationService.changeUrl('lesson-schedule/' + this.lessonScheduleId);
                     });
             }, error => {
                 this.navigationService.changeUrl('lesson-schedule/' + this.lessonScheduleId);
@@ -147,6 +161,11 @@ export class LessonScheduleDetailsComponent implements OnInit {
 
     getCourseErrorMessage() {
         return this.editForm.controls.courseId.hasError('required') ? 'Please select course' :
+            '';
+    }
+
+    getTeachersErrorMessage() {
+        return this.editForm.controls.teachers.hasError('required') ? 'Please select teacher' :
             '';
     }
 
