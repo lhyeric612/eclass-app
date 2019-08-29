@@ -31,8 +31,8 @@ export class CoursesDetailsComponent implements OnInit {
     private levels: any;
 
     editForm = new FormGroup({
-        subjectId: new FormControl('', [Validators.required]),
-        levelId: new FormControl('', [Validators.required]),
+        subjectsId: new FormControl('', [Validators.required]),
+        levelsId: new FormControl('', [Validators.required]),
         courseName: new FormControl('', [Validators.required]),
         active: new FormControl('')
     });
@@ -68,8 +68,8 @@ export class CoursesDetailsComponent implements OnInit {
                 this.http.get(this.configService.getCourseByIdUrl(this.courseId), this.httpOptions)
                     .subscribe(userByIdResponse => {
                         this.courseData = userByIdResponse;
-                        this.editForm.controls.subjectId.setValue(this.courseData.subjectId);
-                        this.editForm.controls.levelId.setValue(this.courseData.levelId);
+                        this.editForm.controls.subjectsId.setValue(this.courseData.subjectsId);
+                        this.editForm.controls.levelsId.setValue(this.courseData.levelsId);
                         this.editForm.controls.courseName.setValue(this.courseData.courseName);
                         this.editForm.controls.active.setValue(this.courseData.active);
                         this.progressMode = 'determinate';
@@ -101,12 +101,12 @@ export class CoursesDetailsComponent implements OnInit {
     
 
     getSubjectErrorMessage() {
-        return this.editForm.controls.subjectId.hasError('required') ? 'Please select subject' :
+        return this.editForm.controls.subjectsId.hasError('required') ? 'Please select subject' :
             '';
     }
 
     getLevelErrorMessage() {
-        return this.editForm.controls.levelId.hasError('required') ? 'Please select level' :
+        return this.editForm.controls.levelsId.hasError('required') ? 'Please select level' :
             '';
     }
 

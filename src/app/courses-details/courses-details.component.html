@@ -37,7 +37,7 @@
                                             <div class="col-sm-8 col-sm-offset-2">
                                                 <mat-form-field class="full-width">
                                                     <mat-label>Subjects</mat-label>
-                                                    <mat-select formControlName="subjectId" required>
+                                                    <mat-select formControlName="subjectsId" required>
                                                         <mat-option *ngFor="let subject of subjects" [value]="subject.id">
                                                             {{subject.displayName}}
                                                         </mat-option>
@@ -50,7 +50,7 @@
                                             <div class="col-sm-8 col-sm-offset-2">
                                                 <mat-form-field class="full-width">
                                                     <mat-label>Levels</mat-label>
-                                                    <mat-select formControlName="levelId" required>
+                                                    <mat-select formControlName="levelsId" required>
                                                         <mat-option *ngFor="let level of levels" [value]="level.id">
                                                             {{level.displayName}}
                                                         </mat-option>

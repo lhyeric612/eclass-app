@@ -25,7 +25,7 @@ export class PlansCreateComponent implements OnInit {
     private now: any;
 
     createForm = new FormGroup({
-        courseId: new FormControl('', [Validators.required]),
+        coursesId: new FormControl('', [Validators.required]),
         planName: new FormControl('', [Validators.required]),
         description: new FormControl(''),
         qty: new FormControl(1, [Validators.required]),
@@ -72,7 +72,7 @@ export class PlansCreateComponent implements OnInit {
     }
 
     getCourseErrorMessage() {
-        return this.createForm.controls.courseId.hasError('required') ? 'Please select courses' :
+        return this.createForm.controls.coursesId.hasError('required') ? 'Please select courses' :
             '';
     }
 
@@ -111,7 +111,7 @@ export class PlansCreateComponent implements OnInit {
                 this.createForm.value.byMonth = false;
             }
             const data = {
-                courseId: this.createForm.value.courseId,
+                coursesId: this.createForm.value.coursesId,
                 planName: this.createForm.value.planName,
                 description: this.createForm.value.description,
                 qty: this.createForm.value.qty,

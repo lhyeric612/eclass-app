@@ -31,7 +31,7 @@ export class PlansDetailsComponent implements OnInit {
     private courses: any;
 
     editForm = new FormGroup({
-        courseId: new FormControl('', [Validators.required]),
+        coursesId: new FormControl('', [Validators.required]),
         planName: new FormControl('', [Validators.required]),
         description: new FormControl(''),
         qty: new FormControl(1, [Validators.required]),
@@ -71,7 +71,7 @@ export class PlansDetailsComponent implements OnInit {
                     this.http.get(this.configService.getPlansByIdUrl(this.planId), this.httpOptions)
                     .subscribe(response => {
                         this.planData = response;
-                        this.editForm.controls.courseId.setValue(this.planData.courseId);
+                        this.editForm.controls.coursesId.setValue(this.planData.coursesId);
                         this.editForm.controls.planName.setValue(this.planData.planName);
                         this.editForm.controls.description.setValue(this.planData.description);
                         this.editForm.controls.qty.setValue(this.planData.qty);
@@ -104,7 +104,7 @@ export class PlansDetailsComponent implements OnInit {
     }
 
     getCourseErrorMessage() {
-        return this.editForm.controls.courseId.hasError('required') ? 'Please select courses' :
+        return this.editForm.controls.coursesId.hasError('required') ? 'Please select courses' :
             '';
     }
 
@@ -148,7 +148,7 @@ export class PlansDetailsComponent implements OnInit {
                 this.editForm.value.byMonth = false;
             }
             const data = {
-                courseId: this.editForm.value.courseId,
+                coursesId: this.editForm.value.coursesId,
                 planName: this.editForm.value.planName,
                 description: this.editForm.value.description,
                 qty: this.editForm.value.qty,
