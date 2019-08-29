@@ -46,8 +46,8 @@ export class LessonScheduleDetailsComponent implements OnInit {
     private scheduleStatus: string;
 
     editForm = new FormGroup({
-        classId: new FormControl('', [Validators.required]),
-        courseId: new FormControl('', [Validators.required]),
+        classesId: new FormControl('', [Validators.required]),
+        coursesId: new FormControl('', [Validators.required]),
         teachers: new FormControl('', [Validators.required]),
         title: new FormControl('', [Validators.required]),
         startTime: new FormControl('', [Validators.required]),
@@ -102,8 +102,8 @@ export class LessonScheduleDetailsComponent implements OnInit {
                 this.http.get(this.configService.getLessonScheduleByIdUrl(this.lessonScheduleId), this.httpOptions)
                     .subscribe(response => {
                         this.lessonScheduleData = response;
-                        this.editForm.controls.classId.setValue(this.lessonScheduleData.classId);
-                        this.editForm.controls.courseId.setValue(this.lessonScheduleData.courseId);
+                        this.editForm.controls.classesId.setValue(this.lessonScheduleData.classesId);
+                        this.editForm.controls.coursesId.setValue(this.lessonScheduleData.coursesId);
                         this.editForm.controls.teachers.setValue(this.lessonScheduleData.teachers);
 						this.editForm.controls.title.setValue(this.lessonScheduleData.title);
 						this.editForm.controls.startTime.setValue(this.lessonScheduleData.startTime);
@@ -155,12 +155,12 @@ export class LessonScheduleDetailsComponent implements OnInit {
     
 
     getClassErrorMessage() {
-        return this.editForm.controls.classId.hasError('required') ? 'Please select class' :
+        return this.editForm.controls.classesId.hasError('required') ? 'Please select class' :
             '';
     }
 
     getCourseErrorMessage() {
-        return this.editForm.controls.courseId.hasError('required') ? 'Please select course' :
+        return this.editForm.controls.coursesId.hasError('required') ? 'Please select course' :
             '';
     }
 
@@ -191,16 +191,6 @@ export class LessonScheduleDetailsComponent implements OnInit {
 
     getFromDateErrorMessage() {
         return this.editForm.controls.fromDate.hasError('required') ? 'Please select from date' :
-            '';
-    }
-
-    getToDateErrorMessage() {
-        return this.editForm.controls.toDate.hasError('required') ? 'Please select to date' :
-            '';
-    }
-
-    getTotalLessonsErrorMessage() {
-        return this.editForm.controls.totalLessons.hasError('required') ? 'Please enter number of total lessons' :
             '';
     }
 
@@ -244,15 +234,23 @@ export class LessonScheduleDetailsComponent implements OnInit {
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.editForm.valid) {
             this.editForm.value.fromDate = this.datePipe.transform(this.editForm.value.fromDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');
-            this.editForm.value.toDate = this.datePipe.transform(this.editForm.value.toDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');
+            if (this.editForm.value.toDate != "") {
+                this.editForm.value.toDate = this.datePipe.transform(this.editForm.value.toDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');   
+            }
             this.editForm.value.updateDate = this.now;
             this.editForm.value.updateBy = this.userId;
             this.http.patch(this.configService.getLessonScheduleByIdUrl(this.lessonScheduleId), this.editForm.value, this.httpOptions)
                 .subscribe(response => {
                     console.log(this.editForm.value);
                     const fromdate = new Date(this.editForm.value.fromDate);
-                    const todate = new Date(this.editForm.value.toDate);
-                    const dayscount = Math.abs(todate.getTime() - fromdate.getTime()) / (1000 * 60 * 60 * 24) + 1;
+                    let dayscount = 0;
+                    if (this.editForm.value.toDate != "") {
+                        const todate = new Date(this.editForm.value.toDate);
+                        dayscount = Math.abs(todate.getTime() - fromdate.getTime()) / (1000 * 60 * 60 * 24) + 1;
+                    } else {
+                        dayscount = this.editForm.value.totalLessons;
+                    }
+                    
                     let generatestartdate = fromdate;
                     
                     for (let i = 0; i < dayscount; i++) {
@@ -303,8 +301,9 @@ export class LessonScheduleDetailsComponent implements OnInit {
                                     this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
                                     if (this.editForm.valid) {
                                         const data = {
-                                            classId: this.editForm.value.classId,
-                                            courseId: this.editForm.value.courseId,
+                                            classesId: this.editForm.value.classesId,
+                                            coursesId: this.editForm.value.coursesId,
+                                            teachers: this.editForm.value.teachers,
                                             session: this.generateCount,
                                             date: generateDate,
                                             startTime: this.editForm.value.startTime,
@@ -349,8 +348,9 @@ export class LessonScheduleDetailsComponent implements OnInit {
                             this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
                             if (this.editForm.valid) {
                                 const data = {
-                                    classId: this.editForm.value.classId,
-                                    courseId: this.editForm.value.courseId,
+                                    classesId: this.editForm.value.classesId,
+                                    coursesId: this.editForm.value.coursesId,
+                                    teachers: this.editForm.value.teachers,
                                     session: this.generateCount,
                                     date: generateDate,
                                     startTime: this.editForm.value.startTime,

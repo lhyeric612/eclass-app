@@ -66,6 +66,8 @@ import { LessonScheduleCreateComponent } from './lesson-schedule-create/lesson-s
 import { LessonScheduleDetailsComponent } from './lesson-schedule-details/lesson-schedule-details.component';
 import { ScreenlockComponent } from './screenlock/screenlock.component';
 import { FooterComponent } from './footer/footer.component';
+import { LessonsComponent } from './lessons/lessons.component';
+import { LessonsDetailsComponent } from './lessons-details/lessons-details.component';
 
 const appRoutes: Routes = [
     { path: '', component: LoginComponent },
@@ -100,6 +102,8 @@ const appRoutes: Routes = [
     { path: 'lesson-schedule', component: LessonScheduleComponent },
     { path: 'lesson-schedule/create', component: LessonScheduleCreateComponent },
     { path: 'lesson-schedule/:id', component: LessonScheduleDetailsComponent },
+    { path: 'lessons', component: LessonsComponent },
+    { path: 'lessons-details', component: LessonsDetailsComponent },
     
     { path: 'screenlock',      component: ScreenlockComponent },
     { path: 'logout',      component: LogoutComponent },
@@ -154,7 +158,9 @@ const appRoutes: Routes = [
     LessonScheduleCreateComponent,
     LessonScheduleDetailsComponent,
     ScreenlockComponent,
-    FooterComponent
+    FooterComponent,
+    LessonsComponent,
+    LessonsDetailsComponent
   ],
     imports: [
         BrowserModule,

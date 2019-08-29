@@ -27,14 +27,13 @@
                         </ol>
                     </div>
                     <div class="col-lg-4">
-                        <div class="title-action" *ngIf="scheduleStatus == 'pending'">
+                        <div class="title-action" *ngIf="scheduleStatus == 'Pending'">
                             <button type="submit" class="mat-warn" mat-flat-button [disabled]="editForm.invalid" (click)="onGenerate()">Generate</button>
                             <button type="submit" class="mat-primary" mat-flat-button [disabled]="editForm.invalid" (click)="onSubmit()">Save</button>
                             <button mat-stroked-button (click)="back()">Back</button>
                         </div>
-                        <div class="title-action" *ngIf="scheduleStatus == 'generated'">
+                        <div class="title-action" *ngIf="scheduleStatus == 'Generated'">
                             <button type="submit" class="mat-warn" mat-flat-button disabled>Generated</button>
-                            <button type="submit" class="mat-primary" mat-flat-button [disabled]="editForm.invalid" (click)="onSubmit()">Save</button>
                             <button mat-stroked-button (click)="back()">Back</button>
                         </div>
                     </div>
@@ -49,7 +48,7 @@
                                             <div class="col-sm-8 col-sm-offset-2">
                                                 <mat-form-field class="full-width">
                                                     <mat-label>Classes</mat-label>
-                                                    <mat-select formControlName="classId" required>
+                                                    <mat-select formControlName="classesId" required>
                                                         <mat-option *ngFor="let class of classes" [value]="class.id">
                                                             {{class.displayName}}
                                                         </mat-option>
@@ -62,7 +61,7 @@
                                             <div class="col-sm-8 col-sm-offset-2">
                                                 <mat-form-field class="full-width">
                                                     <mat-label>Courses</mat-label>
-                                                    <mat-select formControlName="courseId" required>
+                                                    <mat-select formControlName="coursesId" required>
                                                         <mat-option *ngFor="let course of courses" [value]="course.id">
                                                             {{course.courseName}}
                                                         </mat-option>
@@ -122,6 +121,7 @@
                                                         <input matInput [matDatepicker]="fromDate" placeholder="Choose a from date" required formControlName="fromDate" readonly>
                                                         <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
                                                         <mat-datepicker #fromDate [ngClass]="{'inline-block':previewMode, 'none':!previewMode}"></mat-datepicker>
+                                                        <mat-error *ngIf="editForm.invalid">{{getFromDateErrorMessage()}}</mat-error>
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-sm-4">
@@ -136,7 +136,6 @@
                                             <div class="col-sm-8 col-sm-offset-2">
                                                 <mat-form-field class="full-width">
                                                     <input matInput type="number" placeholder="Total Lessons" class="form-control" formControlName="totalLessons">
-                                                    <mat-error *ngIf="editForm.invalid">{{getTotalLessonsErrorMessage()}}</mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -159,7 +158,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <form class="m-t" role="form" [formGroup]="deleteForm">
+                                    <form class="m-t" role="form" [formGroup]="deleteForm" *ngIf="scheduleStatus == 'Pending'">
                                         <div class="form-group">
                                             <div class="col-sm-8 col-sm-offset-2">
                                                 <mat-form-field class="full-width">

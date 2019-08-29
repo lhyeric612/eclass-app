@@ -28,8 +28,8 @@ export class LessonScheduleCreateComponent implements OnInit {
     private createResponse: any;
 
     createForm = new FormGroup({
-        classId: new FormControl('', [Validators.required]),
-        courseId: new FormControl('', [Validators.required]),
+        classesId: new FormControl('', [Validators.required]),
+        coursesId: new FormControl('', [Validators.required]),
         teachers: new FormControl('', [Validators.required]),
         title: new FormControl('', [Validators.required]),
         startTime: new FormControl('', [Validators.required]),
@@ -108,12 +108,12 @@ export class LessonScheduleCreateComponent implements OnInit {
     }
 
     getClassErrorMessage() {
-        return this.createForm.controls.classId.hasError('required') ? 'Please select class' :
+        return this.createForm.controls.classesId.hasError('required') ? 'Please select class' :
             '';
     }
 
     getCourseErrorMessage() {
-        return this.createForm.controls.courseId.hasError('required') ? 'Please select course' :
+        return this.createForm.controls.coursesId.hasError('required') ? 'Please select course' :
             '';
     }
 
@@ -147,16 +147,6 @@ export class LessonScheduleCreateComponent implements OnInit {
             '';
     }
 
-    getToDateErrorMessage() {
-        return this.createForm.controls.toDate.hasError('required') ? 'Please select to date' :
-            '';
-    }
-
-    getTotalLessonsErrorMessage() {
-        return this.createForm.controls.totalLessons.hasError('required') ? 'Please enter number of total lessons' :
-            '';
-    }
-
     getWeeksErrorMessage() {
         return this.createForm.controls.weeks.hasError('required') ? 'Please select weeks' :
             '';
@@ -167,40 +157,19 @@ export class LessonScheduleCreateComponent implements OnInit {
         this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
         if (this.createForm.valid) {
             this.createForm.value.fromDate = this.datePipe.transform(this.createForm.value.fromDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');
-            this.createForm.value.toDate = this.datePipe.transform(this.createForm.value.toDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');
+            if (this.createForm.value.toDate != "") {
+                this.createForm.value.toDate = this.datePipe.transform(this.createForm.value.toDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');    
+            }
             this.createForm.value.createDate = this.now;
             this.createForm.value.createBy = this.userId;
-            this.createForm.value.status = 'pending';
+            this.createForm.value.status = 'Pending';
             this.http.post(this.configService.getLessonScheduleUrl(), this.createForm.value, this.httpOptions)
                 .subscribe(response => {
                     this.toastr.success('Lesson Schedule Job Created.', 'Success', {
                         positionClass: 'toast-top-center'
                     });
-                    this.navigationService.changeUrl('lesson-schedule/');
-                }, error => {
-                    this.toastr.error(error.error.message, 'Error', {
-                        positionClass: 'toast-top-center'
-                    });
-                });
-        }
-    }
-
-    onGenerate() {
-        this.now = new Date();
-        this.now = this.datePipe.transform(this.now, 'yyyy-MM-dd HH:mm:ss', '+0800');
-        if (this.createForm.valid) {
-            this.createForm.value.fromDate = this.datePipe.transform(this.createForm.value.fromDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');
-            this.createForm.value.toDate = this.datePipe.transform(this.createForm.value.toDate, 'yyyy-MM-ddTHH:mm:ss', '+0800');
-            this.createForm.value.createDate = this.now;
-            this.createForm.value.createBy = this.userId;
-            this.createForm.value.status = 'pending';
-            this.http.post(this.configService.getLessonScheduleUrl(), this.createForm.value, this.httpOptions)
-                .subscribe(response => {
                     this.createResponse = response;
-                    // this.toastr.success('Lesson Schedule Job Created.', 'Success', {
-                    //     positionClass: 'toast-top-center'
-                    // });
-                    // this.navigationService.changeUrl('lesson-schedule/' + this.createResponse.id);
+                    this.navigationService.changeUrl('lesson-schedule/' + this.createResponse.id);
                 }, error => {
                     this.toastr.error(error.error.message, 'Error', {
                         positionClass: 'toast-top-center'

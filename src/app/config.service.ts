@@ -142,7 +142,7 @@ export class ConfigService {
         return this.basicUrl + 'lesson-schedules/' + id + '/courses';
     }
 
-    // Lesson API
+    // Lessons API
 
     getLessonsUrl() {
         return this.basicUrl + 'lessons';

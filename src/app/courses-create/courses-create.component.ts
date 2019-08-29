@@ -26,8 +26,8 @@ export class CoursesCreateComponent implements OnInit {
     private levels: any;
 
     createForm = new FormGroup({
-        subjectId: new FormControl('', [Validators.required]),
-        levelId: new FormControl('', [Validators.required]),
+        subjectsId: new FormControl('', [Validators.required]),
+        levelsId: new FormControl('', [Validators.required]),
         courseName: new FormControl('', [Validators.required])
     });
 
@@ -76,12 +76,12 @@ export class CoursesCreateComponent implements OnInit {
     }
 
     getSubjectErrorMessage() {
-        return this.createForm.controls.subjectId.hasError('required') ? 'Please select subject' :
+        return this.createForm.controls.subjectsId.hasError('required') ? 'Please select subject' :
             '';
     }
 
     getLevelErrorMessage() {
-        return this.createForm.controls.levelId.hasError('required') ? 'Please select level' :
+        return this.createForm.controls.levelsId.hasError('required') ? 'Please select level' :
             '';
     }
 
