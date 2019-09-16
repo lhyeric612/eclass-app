@@ -28,6 +28,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 # eclass-app
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # eclass-app
 =======
 
@@ -41,3 +42,7 @@ Testing
 >>>>>>> testing
 =======
 >>>>>>> dev
+=======
+
+UAT
+>>>>>>> uat
