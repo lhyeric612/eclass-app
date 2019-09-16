@@ -30,5 +30,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 # eclass-app
 =======
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+Testing2
+=======
+>>>>>>> testing2
 Testing
 >>>>>>> testing
