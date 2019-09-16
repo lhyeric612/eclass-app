@@ -29,8 +29,11 @@
                 </div>
                 <div class="wrapper wrapper-content">
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div [ngClass]="{'col-lg-12': createForm.value.parentsId != '0', 'col-lg-6': createForm.value.parentsId == '0'}">
                             <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Student Information</h5>
+                                </div>
                                 <div class="ibox-content">
                                     <form class="m-t" role="form" [formGroup]="createForm">
                                         <div class="form-group">
@@ -90,6 +93,87 @@
                                                         </mat-option>
                                                     </mat-select>
                                                     <mat-error *ngIf="createForm.invalid">{{getParentErrorMessage()}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="ibox float-e-margins" *ngIf="createForm.value.parentsId == '0'">
+                                <div class="ibox-title">
+                                    <h5>Parent Information</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <form class="m-t" role="form" [formGroup]="createForm2">
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="First Name" class="form-control" required formControlName="firstName">
+                                                    <mat-error *ngIf="createForm2.invalid">{{getFirstName2ErrorMessage()}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="Last Name" class="form-control" required formControlName="lastName">
+                                                    <mat-error *ngIf="createForm2.invalid">{{getLastName2ErrorMessage()}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="Nick Name" class="form-control" formControlName="nickName">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="Chinese Name" class="form-control" formControlName="chineseName">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="height: 24px">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-radio-group aria-label="Gender" formControlName="gender">
+                                                    <mat-radio-button value="Male">Male</mat-radio-button>
+                                                    <mat-radio-button value="Female">Female</mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="height: 24px">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput [matDatepicker]="picker1" placeholder="Choose a birthday date" formControlName="birthday">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker1></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="Mobile" class="form-control" required formControlName="mobile">
+                                                    <mat-error *ngIf="createForm2.invalid">{{getMobileErrorMessage()}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="Email" class="form-control" required email formControlName="email">
+                                                    <mat-error *ngIf="createForm2.invalid">{{getEmailErrorMessage()}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <mat-form-field class="full-width">
+                                                    <input matInput type="text" placeholder="Address" class="form-control" formControlName="address">
                                                 </mat-form-field>
                                             </div>
                                         </div>

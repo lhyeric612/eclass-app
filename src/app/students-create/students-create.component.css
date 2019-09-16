@@ -1,5 +1,6 @@
 .mat-radio-button ~ .mat-radio-button {
         margin-left: 16px;
     }
+.ibox-content { height: 700px; }
 .form-group { height: 66px; }
     

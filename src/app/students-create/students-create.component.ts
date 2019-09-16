@@ -34,6 +34,18 @@ export class StudentsCreateComponent implements OnInit {
         parentsId: new FormControl('', [Validators.required])
     });
 
+    createForm2 = new FormGroup({
+        firstName: new FormControl('', [Validators.required]),
+        lastName: new FormControl('', [Validators.required]),
+        nickName: new FormControl(''),
+        chineseName: new FormControl(''),
+        gender: new FormControl(''),
+        birthday: new FormControl(''),
+        address: new FormControl(''),
+        mobile: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+        email: new FormControl('', [Validators.required, Validators.email])
+    });
+
     constructor(
         private cookieService: CookieService,
         private http: HttpClient,
@@ -56,18 +68,19 @@ export class StudentsCreateComponent implements OnInit {
                 this.userMeData = userMenResponse;
                 this.userId = this.userMeData.id;
                 this.http.get(this.configService.getParentsUrl(), this.httpOptions)
-                .subscribe(response => {
-                    this.parents = response;
-                    if (this.parents.length > 0) {
-                        for (const parent of this.parents) {
-                            parent.name = parent.firstName + ' ' + parent.lastName;
+                    .subscribe(response => {
+                        this.parents = response;
+                        if (this.parents.length > 0) {
+                            for (const parent of this.parents) {
+                                parent.name = parent.firstName + ' ' + parent.lastName;
+                            }
                         }
-                        this.progressMode = 'determinate';
-                        this.progressValue = 100;
-                    }
-                }, error => {
+                        this.parents.push({ id: "0", name: "No parent in system" });
+                    }, error => {
                         this.navigationService.changeUrl('students/create');
-                })
+                    });
+                this.progressMode = 'determinate';
+                this.progressValue = 100;
             }, error => {
                 this.navigationService.changeUrl('students/create');
             });
@@ -90,6 +103,28 @@ export class StudentsCreateComponent implements OnInit {
     getParentErrorMessage() {
         return this.createForm.controls.parentsId.hasError('required') ? 'Please select parent' :
             '';
+    }
+
+    getFirstName2ErrorMessage() {
+        return this.createForm2.controls.firstName.hasError('required') ? 'Please enter first name' :
+            '';
+    }
+
+    getLastName2ErrorMessage() {
+        return this.createForm2.controls.lastName.hasError('required') ? 'Please enter last name' :
+            '';
+    }
+
+    getMobileErrorMessage() {
+        return this.createForm2.controls.mobile.hasError('required') ? 'Please enter mobile' :
+            this.createForm2.controls.mobile.hasError('maxlength') || this.createForm.controls.mobile.hasError('minlength') ? 'mobile number must be 8 digits' :
+            '';
+    }
+
+    getEmailErrorMessage() {
+        return this.createForm2.controls.email.hasError('required') ? 'Please enter email' :
+            this.createForm2.controls.email.hasError('email') ? 'Not a valid email' :
+                '';
     }
 
     onSubmit() {

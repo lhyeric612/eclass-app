@@ -103,7 +103,7 @@ const appRoutes: Routes = [
     { path: 'lesson-schedule/create', component: LessonScheduleCreateComponent },
     { path: 'lesson-schedule/:id', component: LessonScheduleDetailsComponent },
     { path: 'lessons', component: LessonsComponent },
-    { path: 'lessons-details', component: LessonsDetailsComponent },
+    { path: 'lessons/:id', component: LessonsDetailsComponent },
     
     { path: 'screenlock',      component: ScreenlockComponent },
     { path: 'logout',      component: LogoutComponent },
